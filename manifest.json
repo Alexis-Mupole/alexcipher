@@ -1,0 +1,18 @@
+
+{
+  "name": "AlexCipher",
+  "short_name": "AlexCipher",
+  "description": "Plateforme de cryptage ultra-sécurisée par Alexis Mupole",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3233/3233514.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
