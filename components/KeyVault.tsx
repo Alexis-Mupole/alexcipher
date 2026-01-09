@@ -1,16 +1,18 @@
 
 import React, { useState, useEffect } from 'react';
-import { EncryptionKey, Language } from '../types';
-import { Plus, Trash2, Copy, Key as KeyIcon, Clock, Download, Upload, Brain, Leaf, ShieldAlert, Users, GraduationCap, ChevronRight } from 'lucide-react';
+import { EncryptionKey, Language, Page } from '../types';
+import { Plus, Trash2, Copy, Key as KeyIcon, Clock, Download, Upload, Brain, Leaf, ShieldAlert, Users, GraduationCap, ChevronRight, ArrowLeft } from 'lucide-react';
 import { translations } from '../translations';
 
 interface KeyVaultProps {
   addToast: (msg: string, type?: 'success' | 'error') => void;
   language: Language;
+  onNavigate: (page: Page) => void;
 }
 
-export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language }) => {
+export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNavigate }) => {
   const t = translations[language].keys;
+  const common = translations[language].common;
   const [keys, setKeys] = useState<EncryptionKey[]>([]);
   const [newKeyName, setNewKeyName] = useState('');
 
@@ -96,19 +98,28 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language }) => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+      {/* Back Button */}
+      <button 
+        onClick={() => onNavigate('landing')}
+        className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors mb-6 group text-sm font-medium"
+      >
+        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+        {common.backHome}
+      </button>
+
       <div className="mb-12 text-center lg:text-left">
         <h2 className="text-4xl font-extrabold text-white mb-4 tracking-tight">{t.title}</h2>
         <p className="text-slate-400 text-lg">{t.desc}</p>
       </div>
 
       <div className="grid lg:grid-cols-12 gap-12">
-        {/* Gestionnaire Technique (8 colonnes) */}
+        {/* Gestionnaire Technique */}
         <div className="lg:col-span-8 space-y-8">
-          <div className="grid md:grid-cols-3 gap-6">
-             {/* Panneau de Création */}
+          <div className="grid md:grid-cols-3 gap-6 items-start">
+             {/* Panneau de Création - Fixed size behavior */}
             <div className="md:col-span-1">
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sticky top-24 shadow-xl">
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:sticky md:top-24 shadow-xl">
                 <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
                   <Plus className="w-5 h-5 text-cyan-400" /> {t.newKey}
                 </h3>
@@ -142,8 +153,8 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language }) => {
               </div>
             </div>
 
-            {/* Liste des Clés */}
-            <div className="md:col-span-2 space-y-4">
+            {/* Liste des Clés - Strict Column widths */}
+            <div className="md:col-span-2 space-y-4 min-w-0">
               {keys.length === 0 ? (
                 <div className="bg-slate-900/50 border border-dashed border-slate-800 rounded-3xl p-16 text-center">
                   <div className="w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-700">
@@ -153,31 +164,37 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language }) => {
                 </div>
               ) : (
                 keys.map((key) => (
-                  <div key={key.id} className="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex items-center justify-between group hover:border-slate-700 hover:bg-slate-800/50 transition-all shadow-lg">
-                    <div className="flex-grow overflow-hidden">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="font-bold text-white truncate text-lg">{key.name}</span>
-                        <span className="text-[10px] text-slate-500 whitespace-nowrap bg-slate-800 px-2 py-1 rounded-md">
-                          <Clock className="w-3 h-3 inline mr-1" /> 
+                  <div key={key.id} className="bg-slate-900 border border-slate-800 rounded-3xl p-5 flex items-center gap-4 group hover:border-slate-700 hover:bg-slate-800/50 transition-all shadow-lg overflow-hidden">
+                    {/* Key Info Container - min-w-0 for truncation */}
+                    <div className="flex-grow min-w-0 overflow-hidden">
+                      <div className="flex items-center gap-3 mb-2 min-w-0">
+                        <span className="font-bold text-white truncate text-base leading-tight">{key.name}</span>
+                        <span className="text-[9px] text-slate-500 whitespace-nowrap bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/50">
                           {new Date(key.createdAt).toLocaleDateString()}
                         </span>
                       </div>
-                      <code className="text-sm text-cyan-400/70 mono truncate block bg-black/30 p-2 rounded-lg border border-white/5">
-                        {key.value}
-                      </code>
+                      <div className="relative group/code">
+                        <code className="text-[11px] text-cyan-400/70 mono truncate block bg-black/40 p-2.5 rounded-xl border border-white/5 font-medium">
+                          {key.value}
+                        </code>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-2 ml-6">
+                    
+                    {/* Actions - No shrink */}
+                    <div className="flex shrink-0 items-center gap-1 border-l border-slate-800 pl-3">
                       <button 
                         onClick={() => copyKey(key.value)} 
-                        className="p-3 text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 rounded-xl transition-all"
+                        className="p-2.5 text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 rounded-xl transition-all"
+                        title="Copier"
                       >
-                        <Copy className="w-5 h-5" />
+                        <Copy className="w-4 h-4" />
                       </button>
                       <button 
                         onClick={() => deleteKey(key.id)} 
-                        className="p-3 text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
+                        className="p-2.5 text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
+                        title="Supprimer"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -187,7 +204,7 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language }) => {
           </div>
         </div>
 
-        {/* Section Éducative (4 colonnes) */}
+        {/* Section Éducative */}
         <div className="lg:col-span-4">
           <div className="bg-slate-900/30 border border-slate-800/50 rounded-3xl p-8 backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-8">

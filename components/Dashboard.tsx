@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
-import { CipherMethod, VigenereStep, Language } from '../types';
-import { Lock, Unlock, Copy, RefreshCcw, ShieldCheck, Shield, ChevronDown, ChevronUp, Cpu } from 'lucide-react';
+import { CipherMethod, VigenereStep, Language, Page } from '../types';
+import { Lock, Unlock, Copy, RefreshCcw, ShieldCheck, Shield, ChevronDown, ChevronUp, Cpu, ArrowLeft } from 'lucide-react';
 import CryptoJS from 'crypto-js';
 import { vigenereEncrypt, vigenereDecrypt } from '../services/cryptoService';
 import { translations } from '../translations';
@@ -10,11 +10,13 @@ import { KeyManager } from './KeyManager';
 interface DashboardProps {
   addToast: (msg: string, type?: 'success' | 'error') => void;
   language: Language;
+  onNavigate: (page: Page) => void;
 }
 
-export const Dashboard: React.FC<DashboardProps> = ({ addToast, language }) => {
+export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavigate }) => {
   const t = translations[language].dashboard;
   const ts = translations[language].toasts;
+  const common = translations[language].common;
 
   const [activeTab, setActiveTab] = useState<'encrypt' | 'decrypt'>('encrypt');
   const [sourceText, setSourceText] = useState('');
@@ -102,7 +104,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
+      {/* Back Button */}
+      <button 
+        onClick={() => onNavigate('landing')}
+        className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors mb-6 group text-sm font-medium"
+      >
+        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+        {common.backHome}
+      </button>
+
       <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden">
         <div className="flex border-b border-slate-800">
           <button 
@@ -119,7 +130,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language }) => {
           </button>
         </div>
 
-        <div className="p-8">
+        <div className="p-6 md:p-8">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
               {/* Text Area */}

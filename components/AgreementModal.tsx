@@ -20,8 +20,8 @@ export const AgreementModal: React.FC<AgreementModalProps> = ({ language, onAcce
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-[#0f172a] backdrop-blur-xl" />
       
-      <div className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
-        <div className="p-8 text-center">
+      <div className="relative w-full max-w-lg max-h-[90vh] bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in duration-300">
+        <div className="p-6 md:p-8 text-center overflow-y-auto">
           <div className="w-16 h-16 bg-cyan-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <ShieldCheck className="w-8 h-8 text-cyan-400" />
           </div>
@@ -34,13 +34,13 @@ export const AgreementModal: React.FC<AgreementModalProps> = ({ language, onAcce
             {t.desc}
           </p>
           
-          <div className="space-y-4 text-left mb-10">
+          <div className="space-y-4 text-left mb-8">
             <label className="flex items-start gap-4 p-4 bg-slate-950 border border-slate-800 rounded-2xl cursor-pointer hover:border-slate-700 transition-all group">
               <input 
                 type="checkbox" 
                 checked={agreed1} 
                 onChange={() => setAgreed1(!agreed1)}
-                className="mt-1 w-4 h-4 rounded border-slate-700 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
+                className="mt-1 w-5 h-5 md:w-4 md:h-4 rounded border-slate-700 bg-slate-800 text-cyan-500 focus:ring-cyan-500 shrink-0"
               />
               <span className="text-sm text-slate-300 font-medium leading-tight group-hover:text-white transition-colors">
                 {t.check1}
@@ -52,14 +52,16 @@ export const AgreementModal: React.FC<AgreementModalProps> = ({ language, onAcce
                 type="checkbox" 
                 checked={agreed2} 
                 onChange={() => setAgreed2(!agreed2)}
-                className="mt-1 w-4 h-4 rounded border-slate-700 bg-slate-800 text-cyan-500 focus:ring-cyan-500"
+                className="mt-1 w-5 h-5 md:w-4 md:h-4 rounded border-slate-700 bg-slate-800 text-cyan-500 focus:ring-cyan-500 shrink-0"
               />
               <span className="text-sm text-slate-300 font-medium leading-tight group-hover:text-white transition-colors">
                 {t.check2}
               </span>
             </label>
           </div>
-          
+        </div>
+
+        <div className="p-6 md:p-8 bg-slate-900 border-t border-slate-800">
           <div className="flex flex-col gap-4">
             <button 
               disabled={!canContinue}

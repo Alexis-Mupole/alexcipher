@@ -1,19 +1,30 @@
 
 import React from 'react';
-import { Shield, ScrollText, CheckCircle2 } from 'lucide-react';
-import { Language } from '../types';
+import { Shield, ScrollText, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { Language, Page } from '../types';
 import { translations } from '../translations';
 
 interface LegalPageProps {
   type: 'privacy' | 'terms';
   language: Language;
+  onNavigate: (page: Page) => void;
 }
 
-export const LegalPage: React.FC<LegalPageProps> = ({ type, language }) => {
+export const LegalPage: React.FC<LegalPageProps> = ({ type, language, onNavigate }) => {
   const content = translations[language].legal[type];
+  const common = translations[language].common;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
+    <div className="max-w-3xl mx-auto px-4 py-8 md:py-16">
+      {/* Back Button */}
+      <button 
+        onClick={() => onNavigate('landing')}
+        className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors mb-6 group text-sm font-medium"
+      >
+        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+        {common.back}
+      </button>
+
       <div className="text-center mb-16">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-800 rounded-2xl mb-6">
           {type === 'privacy' ? (

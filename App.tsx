@@ -49,15 +49,15 @@ const App: React.FC = () => {
       case 'landing':
         return <Hero onStart={() => navigate('dashboard')} language={language} />;
       case 'dashboard':
-        return <Dashboard addToast={addToast} language={language} />;
+        return <Dashboard addToast={addToast} language={language} onNavigate={navigate} />;
       case 'keys':
-        return <KeyVault addToast={addToast} language={language} />;
+        return <KeyVault addToast={addToast} language={language} onNavigate={navigate} />;
       case 'faq':
-        return <FAQSection language={language} />;
+        return <FAQSection language={language} onNavigate={navigate} />;
       case 'privacy':
-        return <LegalPage type="privacy" language={language} />;
+        return <LegalPage type="privacy" language={language} onNavigate={navigate} />;
       case 'terms':
-        return <LegalPage type="terms" language={language} />;
+        return <LegalPage type="terms" language={language} onNavigate={navigate} />;
       default:
         return <Hero onStart={() => navigate('dashboard')} language={language} />;
     }

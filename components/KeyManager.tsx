@@ -72,10 +72,10 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         </button>
       </div>
 
-      {/* Content Area */}
-      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 relative min-h-[140px] flex flex-col justify-center">
+      {/* Content Area - Fixed min-height to prevent jumping */}
+      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 relative min-h-[160px] flex flex-col justify-center">
         {activeTab === 'manual' && (
-          <div className="space-y-3">
+          <div className="space-y-3 animate-in fade-in duration-300">
             <div className="relative">
               <input 
                 type={showPassword ? "text" : "password"}
@@ -113,16 +113,16 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         )}
 
         {activeTab === 'auto' && (
-          <div className="text-center space-y-4">
-            <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl min-h-[44px] flex items-center justify-center">
-              <code className="text-cyan-400 mono text-xs break-all">
-                {value || '••••••••••••••••••••••••'}
+          <div className="text-center space-y-4 animate-in fade-in duration-300">
+            <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl h-[56px] flex items-center justify-center overflow-hidden">
+              <code className="text-cyan-400 mono text-[10px] break-all leading-tight">
+                {value || '••••••••••••••••••••••••••••••••'}
               </code>
             </div>
             <div className="flex gap-2">
               <button 
                 onClick={generateRandomKey}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-2 transition-all active:scale-95"
+                className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 transition-all active:scale-95"
               >
                 <RefreshCw className="w-3.5 h-3.5" /> {t.generate}
               </button>
@@ -130,13 +130,15 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 <>
                   <button 
                     onClick={copyKey}
-                    className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-all"
+                    className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-all"
+                    title="Copier"
                   >
                     <Copy className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={clearKey}
-                    className="p-2 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded-lg transition-all"
+                    className="p-2.5 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded-lg transition-all"
+                    title="Effacer"
                   >
                     <Eraser className="w-4 h-4" />
                   </button>
@@ -147,7 +149,7 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         )}
 
         {activeTab === 'theme' && (
-          <div className="space-y-4">
+          <div className="space-y-4 animate-in fade-in duration-300">
             <select 
               onChange={(e) => onChange(e.target.value)}
               className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500"
@@ -158,8 +160,8 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 <option key={key} value={val}>{key.charAt(0).toUpperCase() + key.slice(1)}</option>
               ))}
             </select>
-            <div className="bg-emerald-500/5 border border-emerald-500/20 p-2 rounded-lg">
-               <code className="text-emerald-400/80 mono text-[10px] block truncate">
+            <div className="bg-emerald-500/5 border border-emerald-500/20 p-2.5 rounded-lg h-[34px] flex items-center overflow-hidden">
+               <code className="text-emerald-400/80 mono text-[10px] block truncate w-full">
                 {value || '---'}
                </code>
             </div>

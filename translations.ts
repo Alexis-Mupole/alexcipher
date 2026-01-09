@@ -1,6 +1,10 @@
 
 export const translations = {
   fr: {
+    common: {
+      back: "Retour",
+      backHome: "Retour à l'accueil"
+    },
     nav: {
       dashboard: "Dashboard",
       keys: "Mes Clés",
@@ -160,6 +164,10 @@ export const translations = {
     }
   },
   en: {
+    common: {
+      back: "Back",
+      backHome: "Back home"
+    },
     nav: {
       dashboard: "Dashboard",
       keys: "My Keys",
