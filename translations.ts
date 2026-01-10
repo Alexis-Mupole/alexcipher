@@ -1,9 +1,21 @@
-
 export const translations = {
   fr: {
     common: {
       back: "Retour",
-      backHome: "Retour à l'accueil"
+      backHome: "Retour à l'accueil",
+      install: "Installer l'App",
+      iosInstall: "Pour installer sur iPhone : appuyez sur Partager puis 'Sur l'écran d'accueil'."
+    },
+    installHub: {
+      title: "Choisir le mode d'installation",
+      desc: "Voulez-vous installer AlexCipher comme une application native ou un raccourci ?",
+      option1Title: "Liste des Applications (WebAPK)",
+      option1Desc: "L'app apparaîtra dans votre tiroir d'applications Android avec les autres apps.",
+      option2Title: "Écran d'Accueil",
+      option2Desc: "Crée un raccourci rapide sur votre écran principal pour un accès instantané.",
+      btnInstall: "Installer maintenant",
+      iosNote: "Sur iOS, l'installation se fait via le menu de partage de Safari.",
+      close: "Fermer"
     },
     nav: {
       dashboard: "Dashboard",
@@ -14,7 +26,8 @@ export const translations = {
       api: "API",
       footerNote: "Fait avec ❤️ par AlexCipher",
       developer: "Développé par Alexis Mupole",
-      tagline: "Sécurisez vos échanges en un clic"
+      tagline: "Sécurisez vos échanges en un clic",
+      whatsapp: "WhatsApp"
     },
     agreement: {
       title: "Engagement Responsable",
@@ -80,11 +93,14 @@ export const translations = {
       strength: ["Vide", "Très faible", "Faible", "Moyen", "Fort"],
       btnEncrypt: "Générer le message secret",
       btnDecrypt: "Révéler le message",
+      btnShare: "Partager",
+      btnCopy: "Copier le code",
       labelResult: "Résultat",
       placeholderResult: "Le résultat apparaîtra ici...",
       newMsg: "Nouveau message",
       techFlow: "Visualisation du flux technique",
       security: ["Chiffrement Local", "Sans Cookies", "Open Source"],
+      shareText: "Déchiffrez ce message sécurisé sur AlexCipher :",
       keyManager: {
         tabs: ["Manuel", "Auto", "Thèmes"],
         warning: "Nous ne stockons aucune clé sur nos serveurs. Ne la perdez pas !",
@@ -116,13 +132,17 @@ export const translations = {
       importSuccess: "clé(s) importée(s) !",
       importExists: "Ces clés existent déjà",
       importError: "Format de fichier invalide",
+      eco: {
+        title: "Éco-Conception",
+        desc: "Saviez-vous que le chiffrement local consomme jusqu'à 90% moins d'énergie qu'un service cloud ? En utilisant AlexCipher, vous protégez vos données tout en préservant la planète."
+      },
       edu: {
         title: "Numérique Responsable",
         subtitle: "Éduquer pour mieux protéger",
         cards: [
           { title: "Entropie & Force", desc: "La longueur d'une clé est plus importante que sa complexité. Une phrase de 20 lettres est plus dure à briser qu'un mot court avec des symboles.", icon: "Brain" },
           { title: "Souveraineté des Données", desc: "En utilisant AlexCipher (chiffrement local), vous réduisez votre empreinte carbone et reprenez le contrôle total sur vos échanges.", icon: "Leaf" },
-          { title: "Zéro Partage en Clair", desc: "Ne stockez jamais vos clés dans un fichier texte non chiffré ou dans vos e-mails. Utilisez un gestionnaire de mots de passe de confiance.", icon: "ShieldAlert" },
+          { title: "Zero Partage en Clair", desc: "Ne stockez jamais vos clés dans un fichier texte non chiffré ou dans vos e-mails. Utilisez un gestionnaire de mots de passe de confiance.", icon: "ShieldAlert" },
           { title: "Responsabilité Éthique", desc: "Le chiffrement est un droit humain. Utilisez-le pour protéger votre intimité, pas pour nuire à autrui.", icon: "Users" }
         ]
       }
@@ -160,13 +180,27 @@ export const translations = {
       decryptSuccess: "Message déchiffré avec succès !",
       decryptError: "Clé incorrecte ou format invalide",
       copied: "Copié dans le presse-papier !",
+      shareNotSupported: "Partage non supporté : le code a été copié !",
       error: "Une erreur est survenue"
     }
   },
   en: {
     common: {
       back: "Back",
-      backHome: "Back home"
+      backHome: "Back home",
+      install: "Install App",
+      iosInstall: "To install on iPhone: tap Share then 'Add to Home Screen'."
+    },
+    installHub: {
+      title: "Choose Installation Mode",
+      desc: "Do you want to install AlexCipher as a native-like app or a simple shortcut?",
+      option1Title: "App List (WebAPK)",
+      option1Desc: "The app will appear in your Android app drawer with all your other apps.",
+      option2Title: "Home Screen",
+      option2Desc: "Creates a quick shortcut on your main screen for instant access.",
+      btnInstall: "Install Now",
+      iosNote: "On iOS, installation is done via Safari's Share menu.",
+      close: "Close"
     },
     nav: {
       dashboard: "Dashboard",
@@ -177,7 +211,8 @@ export const translations = {
       api: "API",
       footerNote: "Made with ❤️ by AlexCipher",
       developer: "Developed by Alexis Mupole",
-      tagline: "Secure your exchanges in one click"
+      tagline: "Secure your exchanges in one click",
+      whatsapp: "WhatsApp"
     },
     agreement: {
       title: "Responsible Engagement",
@@ -243,11 +278,14 @@ export const translations = {
       strength: ["Empty", "Very weak", "Weak", "Medium", "Strong"],
       btnEncrypt: "Generate Secret Message",
       btnDecrypt: "Reveal Message",
+      btnShare: "Share",
+      btnCopy: "Copy code",
       labelResult: "Result",
       placeholderResult: "The result will appear here...",
       newMsg: "New Message",
       techFlow: "Technical flow visualization",
       security: ["Local Encryption", "No Cookies", "Open Source"],
+      shareText: "Decrypt this secure message on AlexCipher:",
       keyManager: {
         tabs: ["Manual", "Auto", "Themes"],
         warning: "We do not store any key on our servers. Do not lose it!",
@@ -279,6 +317,10 @@ export const translations = {
       importSuccess: "key(s) imported!",
       importExists: "These keys already exist",
       importError: "Invalid file format",
+      eco: {
+        title: "Eco-Conception",
+        desc: "Did you know that local encryption uses up to 90% less energy than cloud services? By using AlexCipher, you protect your data while preserving the planet."
+      },
       edu: {
         title: "Responsible Tech",
         subtitle: "Educating for better protection",
@@ -323,6 +365,7 @@ export const translations = {
       decryptSuccess: "Message decrypted successfully!",
       decryptError: "Incorrect key or invalid format",
       copied: "Copied to clipboard!",
+      shareNotSupported: "Sharing not supported: code has been copied!",
       error: "An error occurred"
     }
   }

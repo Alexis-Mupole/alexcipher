@@ -1,18 +1,51 @@
-
 {
-  "name": "AlexCipher",
+  "id": "com.alexcipher.secure.suite.v1",
+  "name": "AlexCipher - Suite de Sécurité",
   "short_name": "AlexCipher",
-  "description": "Plateforme de cryptage ultra-sécurisée par Alexis Mupole",
-  "start_url": ".",
+  "description": "Chiffrez vos messages localement avec AlexCipher. Sécurité AES-256 sans aucun serveur.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay"],
   "background_color": "#0f172a",
-  "theme_color": "#06b6d4",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "categories": ["security", "utilities", "productivity"],
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3233/3233514.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/2092/2092663.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2092/2092663.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2092/2092663.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Chiffrer un Message",
+      "short_name": "Chiffrer",
+      "description": "Lancer le chiffrement immédiat",
+      "url": "./?page=dashboard",
+      "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/2092/2092663.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Accéder aux Clés",
+      "short_name": "Clés",
+      "description": "Ouvrir le coffre-fort de clés",
+      "url": "./?page=keys",
+      "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/2092/2092663.png", "sizes": "192x192" }]
     }
   ]
 }

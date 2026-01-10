@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { EncryptionKey, Language, Page } from '../types';
 import { Plus, Trash2, Copy, Key as KeyIcon, Clock, Download, Upload, Brain, Leaf, ShieldAlert, Users, GraduationCap, ChevronRight, ArrowLeft } from 'lucide-react';
@@ -99,7 +98,6 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-      {/* Back Button */}
       <button 
         onClick={() => onNavigate('landing')}
         className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors mb-6 group text-sm font-medium"
@@ -114,10 +112,8 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
       </div>
 
       <div className="grid lg:grid-cols-12 gap-12">
-        {/* Gestionnaire Technique */}
         <div className="lg:col-span-8 space-y-8">
           <div className="grid md:grid-cols-3 gap-6 items-start">
-             {/* Panneau de Création - Fixed size behavior */}
             <div className="md:col-span-1">
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:sticky md:top-24 shadow-xl">
                 <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
@@ -153,7 +149,6 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
               </div>
             </div>
 
-            {/* Liste des Clés - Strict Column widths */}
             <div className="md:col-span-2 space-y-4 min-w-0">
               {keys.length === 0 ? (
                 <div className="bg-slate-900/50 border border-dashed border-slate-800 rounded-3xl p-16 text-center">
@@ -165,7 +160,6 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
               ) : (
                 keys.map((key) => (
                   <div key={key.id} className="bg-slate-900 border border-slate-800 rounded-3xl p-5 flex items-center gap-4 group hover:border-slate-700 hover:bg-slate-800/50 transition-all shadow-lg overflow-hidden">
-                    {/* Key Info Container - min-w-0 for truncation */}
                     <div className="flex-grow min-w-0 overflow-hidden">
                       <div className="flex items-center gap-3 mb-2 min-w-0">
                         <span className="font-bold text-white truncate text-base leading-tight">{key.name}</span>
@@ -174,13 +168,15 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
                         </span>
                       </div>
                       <div className="relative group/code">
-                        <code className="text-[11px] text-cyan-400/70 mono truncate block bg-black/40 p-2.5 rounded-xl border border-white/5 font-medium">
+                        <code 
+                          className="text-[11px] text-cyan-400/70 mono truncate block bg-black/40 p-2.5 rounded-xl border border-white/5 font-medium notranslate"
+                          translate="no"
+                        >
                           {key.value}
                         </code>
                       </div>
                     </div>
                     
-                    {/* Actions - No shrink */}
                     <div className="flex shrink-0 items-center gap-1 border-l border-slate-800 pl-3">
                       <button 
                         onClick={() => copyKey(key.value)} 
@@ -204,7 +200,6 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
           </div>
         </div>
 
-        {/* Section Éducative */}
         <div className="lg:col-span-4">
           <div className="bg-slate-900/30 border border-slate-800/50 rounded-3xl p-8 backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-8">
@@ -213,7 +208,7 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white tracking-tight">{t.edu.title}</h3>
-                <p className="text-xs text-slate-500 font-medium uppercase tracking-widest">{t.edu.subtitle}</p>
+                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">{t.edu.subtitle}</p>
               </div>
             </div>
 
@@ -241,10 +236,10 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
             <div className="mt-10 p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl">
               <div className="flex items-center gap-3 mb-3">
                 <Leaf className="w-5 h-5 text-emerald-400" />
-                <span className="text-sm font-bold text-emerald-400">Éco-Conception</span>
+                <span className="text-sm font-bold text-emerald-400">{t.eco.title}</span>
               </div>
               <p className="text-[11px] text-slate-500 leading-relaxed italic">
-                Saviez-vous que le chiffrement local consomme jusqu'à 90% moins d'énergie qu'un service cloud ? En utilisant AlexCipher, vous protégez vos données tout en préservant la planète.
+                {t.eco.desc}
               </p>
             </div>
           </div>

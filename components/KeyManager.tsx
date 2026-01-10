@@ -72,7 +72,7 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         </button>
       </div>
 
-      {/* Content Area - Fixed min-height to prevent jumping */}
+      {/* Content Area */}
       <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 relative min-h-[160px] flex flex-col justify-center">
         {activeTab === 'manual' && (
           <div className="space-y-3 animate-in fade-in duration-300">
@@ -82,7 +82,8 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={labels.placeholderKey}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pr-10 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pr-10 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all notranslate"
+                translate="no"
               />
               <button 
                 onClick={() => setShowPassword(!showPassword)}
@@ -92,7 +93,6 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
               </button>
             </div>
             
-            {/* Strength Bar */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-slate-500">
                 <span>Force</span>
@@ -115,7 +115,10 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         {activeTab === 'auto' && (
           <div className="text-center space-y-4 animate-in fade-in duration-300">
             <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl h-[56px] flex items-center justify-center overflow-hidden">
-              <code className="text-cyan-400 mono text-[10px] break-all leading-tight">
+              <code 
+                className="text-cyan-400 mono text-[10px] break-all leading-tight notranslate"
+                translate="no"
+              >
                 {value || '••••••••••••••••••••••••••••••••'}
               </code>
             </div>
@@ -161,7 +164,10 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
               ))}
             </select>
             <div className="bg-emerald-500/5 border border-emerald-500/20 p-2.5 rounded-lg h-[34px] flex items-center overflow-hidden">
-               <code className="text-emerald-400/80 mono text-[10px] block truncate w-full">
+               <code 
+                 className="text-emerald-400/80 mono text-[10px] block truncate w-full notranslate"
+                 translate="no"
+               >
                 {value || '---'}
                </code>
             </div>
@@ -169,7 +175,6 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         )}
       </div>
 
-      {/* Warning */}
       <div className="flex gap-3 p-3 rounded-xl bg-orange-500/5 border border-orange-500/10">
         <Info className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
         <p className="text-[10px] text-orange-200/60 leading-relaxed italic">
