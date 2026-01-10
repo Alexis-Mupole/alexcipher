@@ -180,7 +180,7 @@ export const Layout: React.FC<LayoutProps> = ({
                   </div>
                   regusopus@gmail.com
                 </a>
-                <a href="https://wa.me/243828753235" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-4 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-emerald-400 transition-all group">
+                <a href="https://wa.me/243997306308" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-4 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-emerald-400 transition-all group">
                   <div className="p-2.5 bg-slate-900 rounded-xl group-hover:bg-emerald-500 group-hover:text-slate-900 transition-colors">
                     <Phone className="w-4 h-4" />
                   </div>
