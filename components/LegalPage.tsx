@@ -61,7 +61,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, language, onNavigate
       </div>
       
       <div className="mt-16 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm italic">
-        Dernière mise à jour : Mars 2025
+        Dernière mise à jour : Jan 2026
       </div>
     </div>
   );
