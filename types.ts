@@ -16,7 +16,7 @@ export interface EncryptionKey {
   createdAt: number;
 }
 
-export type Page = 'landing' | 'dashboard' | 'keys' | 'faq' | 'privacy' | 'terms';
+export type Page = 'landing' | 'dashboard' | 'keys' | 'faq' | 'privacy' | 'terms' | 'developer';
 
 export interface ToastMessage {
   id: string;

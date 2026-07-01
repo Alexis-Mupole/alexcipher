@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Page, Language, Theme } from '../types';
-import { Shield, LayoutGrid, Key, HelpCircle, Mail, Download, Phone, ShieldCheck, PlusCircle, Sparkles, Sun, Moon, Home, ChevronDown, X, Globe } from 'lucide-react';
+import { Shield, LayoutGrid, Key, HelpCircle, Mail, Download, Phone, ShieldCheck, PlusCircle, Sparkles, Sun, Moon, Home, ChevronDown, X, Globe, Code2 } from 'lucide-react';
 import { translations } from '../translations';
 
 interface LayoutProps {
@@ -43,7 +43,7 @@ export const Layout: React.FC<LayoutProps> = ({
   };
 
   const isMainPage = displayPage === 'dashboard' || displayPage === 'keys' || displayPage === 'faq';
-  const isLanding = displayPage === 'landing' || displayPage === 'privacy' || displayPage === 'terms';
+  const isLanding = displayPage === 'landing' || displayPage === 'privacy' || displayPage === 'terms' || displayPage === 'developer';
 
   const tabItems = [
     { id: 'dashboard' as Page, icon: <LayoutGrid className="w-5 h-5" />, label: t.dashboard },
@@ -238,6 +238,11 @@ export const Layout: React.FC<LayoutProps> = ({
               <div className="h-px" style={{ backgroundColor: 'var(--border-color)' }} />
 
               {/* Legal links */}
+              <button onClick={() => handleNav('developer')} className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl font-bold text-sm transition-all" style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)' }}>
+                <Code2 className="w-5 h-5" style={{ color: 'var(--accent)' }} />
+                {language === 'fr' ? 'Développeur' : 'Developer'}
+              </button>
+
               <div className="flex gap-4">
                 <button onClick={() => handleNav('privacy')} className="flex-1 text-center py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all" style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-muted)', border: '1px solid var(--border-color)' }}>
                   Privacy
@@ -277,6 +282,7 @@ export const Layout: React.FC<LayoutProps> = ({
                 <li><button onClick={() => handleNav('dashboard')} style={{ opacity: 0.7 }} className="hover:opacity-100 transition-opacity">{t.dashboard}</button></li>
                 <li><button onClick={() => handleNav('keys')} style={{ opacity: 0.7 }} className="hover:opacity-100 transition-opacity">{t.keys}</button></li>
                 <li><button onClick={() => handleNav('faq')} style={{ opacity: 0.7 }} className="hover:opacity-100 transition-opacity">{t.faq}</button></li>
+                <li><button onClick={() => handleNav('developer')} style={{ opacity: 0.7 }} className="hover:opacity-100 transition-opacity">{language === 'fr' ? 'Développeur' : 'Developer'}</button></li>
               </ul>
             </div>
             <div className="flex flex-col items-center md:items-start">

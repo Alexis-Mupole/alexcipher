@@ -41,20 +41,62 @@ export const translations = {
         title: "Politique de Confidentialité",
         desc: "Votre vie privée est notre priorité absolue. Voici comment nous protégeons vos données.",
         sections: [
-          { title: "Traitement 100% Local", content: "Contrairement aux services de cloud, AlexCipher traite toutes les données directement dans votre navigateur. Aucun texte, aucune clé et aucune donnée sensible n'est envoyé à un serveur." },
-          { title: "Absence de Cookies", content: "Nous n'utilisons aucun cookie de pistage ou publicitaire. Nous utilisons uniquement le stockage local (localStorage) pour mémoriser vos préférences de langue et vos clés si vous décidez de les enregistrer." },
-          { title: "Zéro Log", content: "Il n'existe aucun journal d'activité. Ce que vous chiffrez reste votre secret exclusif." }
+          { title: "Traitement 100% Local", content: "Contrairement aux services de cloud, AlexCipher traite toutes les données directement dans votre navigateur. Aucun texte, aucune clé et aucune donnée sensible n'est envoyé à un serveur. Le chiffrement et le déchiffrement s'effectuent exclusivement sur votre appareil." },
+          { title: "Aucune Collecte de Données", content: "Nous ne collectons, ne stockons ni ne partageons aucune donnée personnelle. AlexCipher ne dispose d'aucun serveur backend, base de données ou système d'authentification. Vous n'avez besoin d'aucun compte pour utiliser l'application." },
+          { title: "Absence de Cookies", content: "Nous n'utilisons aucun cookie de pistage, publicitaire ou analytique. Nous utilisons uniquement le stockage local (localStorage) de votre navigateur pour mémoriser vos préférences de langue et vos clés si vous décidez de les enregistrer localement. Aucune information n'est transmise à un tiers." },
+          { title: "Zéro Log", content: "Il n'existe aucun journal d'activité, aucune télémétrie et aucun suivi d'utilisation. Ce que vous chiffrez reste votre secret exclusif. Nous ne pouvons pas voir, lire ou accéder à vos messages, clés ou fichiers." },
+          { title: "Conformité RGPD", content: "Conformément au Règlement Général sur la Protection des Données (RGPD) de l'Union Européenne, nous vous informons qu'aucune donnée personnelle n'est traitée, stockée ou transférée par nos soins. Vous exercez un contrôle total sur vos informations. Aucune demande de consentement n'est nécessaire car aucun traitement n'a lieu." },
+          { title: "Services Tiers", content: "AlexCipher n'intègre aucun service tiers d'analyse, de publicité ou de réseaux sociaux. L'application fonctionne de manière autonome sans dépendre de ressources externes une fois chargée. Aucune donnée n'est partagée avec des partenaires ou fournisseurs." },
+          { title: "Sécurité des Données", content: "Bien que nous mettions en œuvre des mesures de sécurité techniques et organisationnelles appropriées, la sécurité de vos données dépend également de la robustesse de vos clés et de vos pratiques. Utilisez des clés fortes, ne partagez jamais votre clé sur le même canal que le message chiffré, et effacez votre presse-papier après utilisation." },
+          { title: "Modifications de la Politique", content: "Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications seront publiées sur cette page. Nous vous encourageons à consulter régulièrement cette page pour prendre connaissance des éventuelles mises à jour." }
         ]
       },
       terms: {
         title: "Conditions d'Utilisation",
         desc: "En utilisant AlexCipher, vous acceptez les règles suivantes.",
         sections: [
-          { title: "Utilisation Responsable", content: "L'utilisateur s'engage à ne pas utiliser AlexCipher pour des activités illégales, malveillantes ou portant atteinte à autrui." },
-          { title: "Responsabilité des Clés", content: "AlexCipher est un outil de chiffrement fort. Si vous perdez votre clé secrète, les données chiffrées sont irrécupérables. Nous ne pouvons en aucun cas restaurer l'accès à vos données." },
-          { title: "Limitation de Responsabilité", content: "Alexis Mupole et AlexCipher ne pourront être tenus responsables de toute perte de données ou de tout usage détourné de l'application par des tiers." }
+          { title: "Acceptation des Conditions", content: "En accédant à ou en utilisant AlexCipher, vous reconnaissez avoir lu, compris et accepté d'être lié par les présentes conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser l'application." },
+          { title: "Description du Service", content: "AlexCipher est un outil de chiffrement et de déchiffrement local fonctionnant entièrement dans le navigateur. Il permet aux utilisateurs de chiffrer des messages à l'aide de divers algorithmes (AES-256, RSA, Vigenère, César, etc.). L'application est fournie gratuitement et sans garantie." },
+          { title: "Utilisation Responsable", content: "L'utilisateur s'engage à ne pas utiliser AlexCipher pour des activités illégales, malveillantes ou portant atteinte à autrui. Il est expressément interdit d'utiliser l'application pour enfreindre les lois applicables, notamment en matière de sécurité nationale, de propriété intellectuelle ou de protection des données." },
+          { title: "Responsabilité des Clés", content: "AlexCipher est un outil de chiffrement fort. Si vous perdez votre clé secrète, les données chiffrées sont irrécupérables. Nous ne pouvons en aucun cas restaurer l'accès à vos données, car nous n'avons aucun moyen technique ou légal de le faire (absence de backdoor, de base de données ou de serveur)." },
+          { title: "Propriété Intellectuelle", content: "AlexCipher est un projet open source. Le code source est mis à disposition à des fins éducatives et pratiques. Toute reproduction, modification ou distribution doit respecter la licence du projet. Le nom 'AlexCipher' et le logo sont la propriété d'Alexis Mupole." },
+          { title: "Absence de Garantie", content: "L'application est fournise « en l'état », sans garantie d'aucune sorte, expresse ou implicite. Nous ne garantissons pas que l'application fonctionnera sans interruption, sans erreur ou que les algorithmes de chiffrement resteront inviolables face aux avancées technologiques futures." },
+          { title: "Limitation de Responsabilité", content: "Alexis Mupole et AlexCipher ne pourront en aucun cas être tenus responsables des dommages directs, indirects, accidentels ou consécutifs résultant de l'utilisation ou de l'impossibilité d'utiliser l'application, y compris la perte de données, la perte de profits ou l'interruption d'activité." },
+          { title: "Loi Applicable", content: "Les présentes conditions sont régies par le droit de la République Démocratique du Congo. Tout litige relatif à l'utilisation d'AlexCipher sera soumis à la juridiction compétente de Kinshasa." },
+          { title: "Modifications des Conditions", content: "Nous nous réservons le droit de modifier ces conditions d'utilisation à tout moment. Les modifications prennent effet dès leur publication sur cette page. L'utilisation continue de l'application après les modifications constitue votre acceptation des nouvelles conditions." }
         ]
       }
+    },
+    developer: {
+      title: "Développeur",
+      desc: "Alexis Mupole Uwizeye — Consultant en Ingénierie Numérique",
+      location: "Kinshasa, RD Congo",
+      experience: "5+ Années d'Expérience",
+      role: "Développeur Web",
+      about: "Informaticien & Développeur (Licence en Computer Science — USA & Licence en Business Computing — Ouganda). Passionné par l'accessibilité et la sécurité numérique. Je conçois des solutions qui comblent le fossé entre la technologie complexe et l'accessibilité humaine.",
+      qualifications: "Expertise & Qualifications",
+      qualList: [
+        "Licence en Computer Science (UoPeople, USA)",
+        "Licence en Business Computing (Bugema University, Ouganda)",
+        "Certifié Cisco Academy & HP IT for Business",
+        "Engagement 'Life-long Learner' pour l'accessibilité numérique"
+      ],
+      services: "Services",
+      serviceList: [
+        "Développement d'Applications Web Sur Mesure",
+        "Architecture Cloud & Solutions Scalables",
+        "Digitalisation de Collecte de Données (Kobo/ODK)",
+        "Infrastructure Réseaux (Cisco Standards)",
+        "Cybersécurité & Audit",
+        "Bureautique Avancée (MS 365) & Automatisation"
+      ],
+      contact: "Contact",
+      email: "regusopus@gmail.com",
+      phone: "+243 997 306 308",
+      whatsapp: "WhatsApp",
+      website: "alexismupole.me",
+      viewPortfolio: "Voir le Portfolio Complet",
+      techStack: "Technologies"
     },
     hero: {
       badge: "Nouveau : Algorithme AES-256 disponible",
@@ -240,6 +282,37 @@ export const translations = {
           { title: "Limitation of Liability", content: "Alexis Mupole and AlexCipher cannot be held responsible for any data loss or any misuse of the application by third parties." }
         ]
       }
+    },
+    developer: {
+      title: "Developer",
+      desc: "Alexis Mupole Uwizeye — Digital Engineering Consultant",
+      location: "Kinshasa, DR Congo",
+      experience: "5+ Years Experience",
+      role: "Web Developer",
+      about: "IT Professional & Developer (BSc Computer Science — USA & BSc Business Computing — Uganda). Passionate about digital accessibility and security. I engineer solutions that bridge the gap between complex technology and human accessibility.",
+      qualifications: "Expertise & Qualifications",
+      qualList: [
+        "BSc in Computer Science (UoPeople, USA)",
+        "BSc in Business Computing (Bugema University, Uganda)",
+        "Cisco Academy & HP IT for Business Certified",
+        "Life-long Learner dedicated to digital accessibility"
+      ],
+      services: "Services",
+      serviceList: [
+        "Custom Web Application Development",
+        "Cloud Architecture & Scalable Solutions",
+        "Data Collection Digitalization (Kobo/ODK)",
+        "Network Infrastructure (Cisco Standards)",
+        "Cybersecurity & Audit",
+        "Advanced Office (MS 365) & Automation"
+      ],
+      contact: "Contact",
+      email: "regusopus@gmail.com",
+      phone: "+243 997 306 308",
+      whatsapp: "WhatsApp",
+      website: "alexismupole.me",
+      viewPortfolio: "View Full Portfolio",
+      techStack: "Technologies"
     },
     hero: {
       badge: "New: AES-256 Algorithm available",

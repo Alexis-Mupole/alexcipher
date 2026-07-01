@@ -5,6 +5,7 @@ import { Dashboard } from './components/Dashboard';
 import { KeyVault } from './components/KeyVault';
 import { FAQSection } from './components/FAQSection';
 import { LegalPage } from './components/LegalPage';
+import { Developer } from './components/Developer';
 import { AgreementModal } from './components/AgreementModal';
 import { InstallHub } from './components/InstallHub';
 import { Page, ToastMessage, Language, Theme } from './types';
@@ -18,6 +19,7 @@ const pageDepth: Record<Page, number> = {
   faq: 1,
   privacy: 2,
   terms: 2,
+  developer: 2,
 };
 
 const getInitialPage = (): Page => 'landing';
@@ -103,7 +105,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const onHashChange = () => {
       const hash = (window.location.hash.replace('#', '') || 'landing') as Page;
-      const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms'];
+      const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms', 'developer'];
       if (validPages.includes(hash)) {
         doNavigate(hash);
       }
@@ -215,6 +217,8 @@ const App: React.FC = () => {
         return <LegalPage key="privacy" type="privacy" language={language} onNavigate={navigate} />;
       case 'terms':
         return <LegalPage key="terms" type="terms" language={language} onNavigate={navigate} />;
+      case 'developer':
+        return <Developer key="developer" language={language} onNavigate={navigate} />;
       default:
         return <Hero key="landing" onStart={() => navigate('dashboard')} language={language} />;
     }
