@@ -20,13 +20,7 @@ const pageDepth: Record<Page, number> = {
   terms: 2,
 };
 
-const getInitialPage = (): Page => {
-  const hash = (window.location.hash.replace('#', '') || '') as Page;
-  const saved = localStorage.getItem('alexcipher_page') as Page;
-  const page = hash || saved || 'landing';
-  const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms'];
-  return validPages.includes(page) ? page : 'landing';
-};
+const getInitialPage = (): Page => 'landing';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(getInitialPage);
