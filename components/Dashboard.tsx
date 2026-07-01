@@ -11,6 +11,7 @@ interface DashboardProps {
   addToast: (msg: string, type?: 'success' | 'error') => void;
   language: Language;
   onNavigate: (page: Page) => void;
+  sharedText?: string | null;
 }
 
 const methodMeta: Record<CipherMethod, { icon: React.FC<{ className?: string }>; desc: string; color: string }> = {
@@ -20,7 +21,7 @@ const methodMeta: Record<CipherMethod, { icon: React.FC<{ className?: string }>;
   [CipherMethod.BASE64]: { icon: FileText, desc: 'Encoding', color: '#10b981' },
 };
 
-export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavigate }) => {
+export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavigate, sharedText }) => {
   const t = translations[language].dashboard;
   const ts = translations[language].toasts;
   const common = translations[language].common;
@@ -31,6 +32,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
   const [method, setMethod] = useState<CipherMethod>(CipherMethod.AES);
   const [result, setResult] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Pre-fill sourceText when text is shared from another app
+  const sharedHandled = React.useRef(false);
+  useEffect(() => {
+    if (sharedText && !sharedHandled.current) {
+      sharedHandled.current = true;
+      setSourceText(sharedText);
+    }
+  }, [sharedText]);
 
   const utf8ToBase64 = (str: string) => btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(parseInt(p1, 16))));
   const base64ToUtf8 = (str: string) => decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));

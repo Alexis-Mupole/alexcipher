@@ -43,8 +43,26 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Interception des requêtes : Stratégie de cache intelligente
+// Interception des requêtes
 self.addEventListener('fetch', (event) => {
+  // Handle Share Target POST — receive text shared from other apps
+  if (event.request.method === 'POST' && new URL(event.request.url).pathname.includes('/share')) {
+    event.respondWith(
+      (async () => {
+        try {
+          const formData = await event.request.formData();
+          const sharedText = formData.get('text') || '';
+          const cache = await caches.open('alexcipher-shared-v1');
+          await cache.put('shared-text', new Response(sharedText));
+          return Response.redirect('./?shared=1', 303);
+        } catch (_) {
+          return Response.redirect('./', 303);
+        }
+      })()
+    );
+    return;
+  }
+
   if (event.request.method !== 'GET') return;
 
   // Stratégie pour les ressources de l'application

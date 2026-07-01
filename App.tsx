@@ -12,6 +12,19 @@ import { Page, ToastMessage, Language, Theme } from './types';
 import { ToastContainer } from './components/Toast';
 import { translations } from './translations';
 
+const getStoredSharedText = async (): Promise<string | null> => {
+  try {
+    const cache = await caches.open('alexcipher-shared-v1');
+    const response = await cache.match('shared-text');
+    if (response) {
+      const text = await response.text();
+      await cache.delete('shared-text');
+      return text || null;
+    }
+  } catch (_) {}
+  return null;
+};
+
 const pageDepth: Record<Page, number> = {
   landing: 0,
   dashboard: 1,
@@ -43,6 +56,7 @@ const App: React.FC = () => {
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [showInstallHub, setShowInstallHub] = useState(false);
+  const [sharedText, setSharedText] = useState<string | null>(null);
   const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navLockRef = useRef(false);
 
@@ -67,6 +81,22 @@ const App: React.FC = () => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 4000);
   }, []);
+
+  // Read shared text from Share Target on mount
+  useEffect(() => {
+    (async () => {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has('shared')) {
+        const text = await getStoredSharedText();
+        if (text) {
+          setSharedText(text);
+          doNavigate('dashboard');
+          url.searchParams.delete('shared');
+          window.history.replaceState({}, '', url.pathname + url.hash);
+        }
+      }
+    })();
+  }, [doNavigate]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -215,7 +245,7 @@ const App: React.FC = () => {
       case 'landing':
         return <Hero key="landing" onStart={() => navigate('dashboard')} language={language} />;
       case 'dashboard':
-        return <Dashboard key="dashboard" addToast={addToast} language={language} onNavigate={navigate} />;
+        return <Dashboard key="dashboard" addToast={addToast} language={language} onNavigate={navigate} sharedText={sharedText} />;
       case 'keys':
         return <KeyVault key="keys" addToast={addToast} language={language} onNavigate={navigate} />;
       case 'faq':
