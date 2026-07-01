@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Key, RefreshCw, Eye, EyeOff, Gamepad2, Info, Copy, Eraser } from 'lucide-react';
 import { Language } from '../types';
@@ -45,35 +44,38 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
     onChange('');
   };
 
-  const strengthColors = ['bg-slate-700', 'bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-emerald-500'];
+  const strengthColors = ['', 'bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-emerald-500'];
   const strengthText = labels.strength[strength];
 
   return (
     <div className="space-y-4">
       {/* Tabs */}
-      <div className="flex bg-slate-950/50 p-1 rounded-xl border border-slate-800">
+      <div className="flex p-1 rounded-xl border" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)' }}>
         <button 
           onClick={() => setActiveTab('manual')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === 'manual' ? 'bg-cyan-500 text-[#0f172a]' : 'text-slate-400 hover:text-white'}`}
+          className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all"
+          style={activeTab === 'manual' ? { backgroundColor: 'var(--accent)', color: '#fff' } : { color: 'var(--text-muted)' }}
         >
           <Key className="w-3.5 h-3.5" /> {t.tabs[0]}
         </button>
         <button 
           onClick={() => setActiveTab('auto')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === 'auto' ? 'bg-indigo-500 text-white' : 'text-slate-400 hover:text-white'}`}
+          className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all"
+          style={activeTab === 'auto' ? { backgroundColor: '#6366f1', color: '#fff' } : { color: 'var(--text-muted)' }}
         >
           <RefreshCw className="w-3.5 h-3.5" /> {t.tabs[1]}
         </button>
         <button 
           onClick={() => setActiveTab('theme')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === 'theme' ? 'bg-emerald-500 text-[#0f172a]' : 'text-slate-400 hover:text-white'}`}
+          className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-all"
+          style={activeTab === 'theme' ? { backgroundColor: '#10b981', color: '#fff' } : { color: 'var(--text-muted)' }}
         >
           <Gamepad2 className="w-3.5 h-3.5" /> {t.tabs[2]}
         </button>
       </div>
 
       {/* Content Area */}
-      <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 relative min-h-[160px] flex flex-col justify-center">
+      <div className="p-4 rounded-2xl border relative min-h-[160px] flex flex-col justify-center" style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)' }}>
         {activeTab === 'manual' && (
           <div className="space-y-3 animate-in fade-in duration-300">
             <div className="relative">
@@ -82,21 +84,24 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={labels.placeholderKey}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pr-10 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all notranslate"
+                className="w-full border rounded-xl p-3 pr-10 text-sm transition-all focus:outline-none focus:ring-1 notranslate"
+                style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
                 translate="no"
+                onFocus={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
+                onBlur={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
               />
               <button 
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            
+
             <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                <span>Force</span>
-                <span className={strength > 0 ? strengthColors[strength].replace('bg-', 'text-') : 'text-slate-600'}>
+              <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                <span>{language === 'fr' ? 'Force' : 'Strength'}</span>
+                <span style={strength > 0 ? { color: ['', '#ef4444', '#f97316', '#eab308', '#10b981'][strength] } : { color: 'var(--text-muted)' }}>
                   {strengthText}
                 </span>
               </div>
@@ -104,7 +109,8 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 {[1, 2, 3, 4].map((i) => (
                   <div 
                     key={i} 
-                    className={`flex-1 rounded-full transition-all duration-500 ${strength >= i ? strengthColors[strength] : 'bg-slate-800'}`} 
+                    className="flex-1 rounded-full transition-all duration-500" 
+                    style={{ backgroundColor: strength >= i ? ['', '#ef4444', '#f97316', '#eab308', '#10b981'][strength] : 'var(--border-color)' }} 
                   />
                 ))}
               </div>
@@ -114,9 +120,10 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
 
         {activeTab === 'auto' && (
           <div className="text-center space-y-4 animate-in fade-in duration-300">
-            <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl h-[56px] flex items-center justify-center overflow-hidden">
+            <div className="border p-3 rounded-xl h-[56px] flex items-center justify-center overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
               <code 
-                className="text-cyan-400 mono text-[10px] break-all leading-tight notranslate"
+                className="mono text-[10px] break-all leading-tight notranslate"
+                style={{ color: 'var(--accent)' }}
                 translate="no"
               >
                 {value || '••••••••••••••••••••••••••••••••'}
@@ -125,7 +132,8 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
             <div className="flex gap-2">
               <button 
                 onClick={generateRandomKey}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 transition-all active:scale-95"
+                className="flex-1 text-white font-bold py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 transition-all active:scale-95"
+                style={{ backgroundColor: '#6366f1' }}
               >
                 <RefreshCw className="w-3.5 h-3.5" /> {t.generate}
               </button>
@@ -133,15 +141,17 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 <>
                   <button 
                     onClick={copyKey}
-                    className="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-all"
-                    title="Copier"
+                    className="p-2.5 rounded-lg transition-all"
+                    style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-muted)', border: '1px solid var(--border-color)' }}
+                    title={language === 'fr' ? 'Copier' : 'Copy'}
                   >
                     <Copy className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={clearKey}
-                    className="p-2.5 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white rounded-lg transition-all"
-                    title="Effacer"
+                    className="p-2.5 rounded-lg transition-all text-red-400"
+                    style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)' }}
+                    title={language === 'fr' ? 'Effacer' : 'Clear'}
                   >
                     <Eraser className="w-4 h-4" />
                   </button>
@@ -155,7 +165,8 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
           <div className="space-y-4 animate-in fade-in duration-300">
             <select 
               onChange={(e) => onChange(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full border rounded-xl p-3 text-sm transition-all focus:outline-none focus:ring-1"
+              style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
               value={Object.values(t.themes).includes(value) ? value : ""}
             >
               <option value="" disabled>{t.themeSelect}</option>
@@ -163,9 +174,10 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 <option key={key} value={val}>{key.charAt(0).toUpperCase() + key.slice(1)}</option>
               ))}
             </select>
-            <div className="bg-emerald-500/5 border border-emerald-500/20 p-2.5 rounded-lg h-[34px] flex items-center overflow-hidden">
+            <div className="p-2.5 rounded-lg h-[34px] flex items-center overflow-hidden" style={{ backgroundColor: 'rgba(16, 185, 129, 0.05)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
                <code 
-                 className="text-emerald-400/80 mono text-[10px] block truncate w-full notranslate"
+                 className="mono text-[10px] block truncate w-full notranslate"
+                 style={{ color: 'rgba(16, 185, 129, 0.8)' }}
                  translate="no"
                >
                 {value || '---'}
@@ -175,9 +187,9 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         )}
       </div>
 
-      <div className="flex gap-3 p-3 rounded-xl bg-orange-500/5 border border-orange-500/10">
-        <Info className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
-        <p className="text-[10px] text-orange-200/60 leading-relaxed italic">
+      <div className="flex gap-3 p-3 rounded-xl" style={{ backgroundColor: 'rgba(249, 115, 22, 0.05)', border: '1px solid rgba(249, 115, 22, 0.1)' }}>
+        <Info className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#fb923c' }} />
+        <p className="text-[10px] leading-relaxed italic" style={{ color: 'var(--text-muted)' }}>
           {t.warning}
         </p>
       </div>

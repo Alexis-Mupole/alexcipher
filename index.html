@@ -2,93 +2,56 @@
 <html lang="fr" class="notranslate" translate="no">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
     <title>AlexCipher - Sécurisez vos échanges</title>
-    
+
     <meta name="google" content="notranslate">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" id="theme-color" content="#f8fafc">
     <meta name="description" content="AlexCipher - Cryptage AES-256 local. Votre vie privée est un droit, nous la protégeons.">
-    
+
     <!-- PWA / iOS Integration -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="AlexCipher">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    
+
+    <!-- Touch -->
+    <meta name="handheld-friendly" content="true">
+
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2092/2092663.png">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2092/2092663.png">
     <link rel="manifest" href="manifest.json">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --safe-top: env(safe-area-inset-top);
-            --safe-bottom: env(safe-area-inset-bottom);
-            --cyber-cyan: #22d3ee;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            -webkit-user-select: none;
-            user-select: none;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-        /* Splash Screen Premium */
-        #splash-screen {
-            position: fixed;
-            inset: 0;
-            background: #0f172a;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.5s ease;
-        }
-        .loader-ring {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid rgba(34, 211, 238, 0.1);
-            border-top-color: var(--cyber-cyan);
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        
-        textarea, input { user-select: text !important; -webkit-user-select: text !important; }
-    </style>
+    <link rel="stylesheet" href="/index.css">
 
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "crypto-js": "https://esm.sh/crypto-js@^4.2.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    <script>
+      // Theme persistence - runs before page render to prevent flash
+      (function() {
+        const saved = localStorage.getItem('alexcipher_theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark');
+          document.getElementById('theme-color')?.setAttribute('content', '#0f172a');
+        } else {
+          document.getElementById('theme-color')?.setAttribute('content', '#f8fafc');
+        }
+      })();
+    </script>
 </head>
-<body class="text-slate-200 antialiased">
+<body class="antialiased" style="background-color: var(--bg-primary); color: var(--text-primary); overscroll-behavior: none;">
     <div id="splash-screen">
         <div class="loader-ring"></div>
-        <div class="mt-6 text-xl font-black tracking-tighter text-white">Alex<span class="text-cyan-400">Cipher</span></div>
+        <div class="mt-6 text-xl font-black tracking-tighter" style="color: var(--text-primary);">Alex<span style="color: var(--accent);">Cipher</span></div>
     </div>
 
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
     <script>
-      // Gestion du Splash Screen
+      // Splash Screen
       window.addEventListener('load', () => {
         setTimeout(() => {
           const splash = document.getElementById('splash-screen');
@@ -99,20 +62,23 @@
         }, 800);
       });
 
-      // Enregistrement du Service Worker (PWA)
+      // Update theme-color meta on theme change
+      window.addEventListener('theme-change', (e) => {
+        const meta = document.getElementById('theme-color');
+        if (meta) meta.setAttribute('content', e.detail === 'dark' ? '#0f172a' : '#f8fafc');
+      });
+
+      // Service Worker (PWA)
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('./sw.js')
             .then(registration => {
               console.log('AlexCipher SW Registered:', registration.scope);
-              
-              // Détection des mises à jour
               registration.onupdatefound = () => {
                 const installingWorker = registration.installing;
                 if (installingWorker) {
                   installingWorker.onstatechange = () => {
                     if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                      // Dispatch un événement personnalisé pour l'UI React
                       window.dispatchEvent(new CustomEvent('pwa-update-available'));
                     }
                   };
@@ -122,7 +88,6 @@
             .catch(error => console.debug('SW skip:', error));
         });
 
-        // Rechargement intelligent lors de la mise à jour du contrôleur
         let refreshing = false;
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           if (!refreshing) {
@@ -132,6 +97,5 @@
         });
       }
     </script>
-<script type="module" src="/index.tsx"></script>
 </body>
 </html>

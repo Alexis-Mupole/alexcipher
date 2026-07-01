@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Layout } from './components/Layout';
 import { Hero } from './components/Hero';
 import { Dashboard } from './components/Dashboard';
@@ -7,18 +7,38 @@ import { FAQSection } from './components/FAQSection';
 import { LegalPage } from './components/LegalPage';
 import { AgreementModal } from './components/AgreementModal';
 import { InstallHub } from './components/InstallHub';
-import { Page, ToastMessage, Language } from './types';
+import { Page, ToastMessage, Language, Theme } from './types';
 import { ToastContainer } from './components/Toast';
 import { translations } from './translations';
 
+const pageDepth: Record<Page, number> = {
+  landing: 0,
+  dashboard: 1,
+  keys: 1,
+  faq: 1,
+  privacy: 2,
+  terms: 2,
+};
+
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('landing');
+  const [prevPage, setPrevPage] = useState<Page | null>(null);
+  const [transitionDir, setTransitionDir] = useState<'forward' | 'back'>('forward');
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedPage, setDisplayedPage] = useState<Page>('landing');
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [showInstallHub, setShowInstallHub] = useState(false);
-  
+  const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem('alexcipher_theme') as Theme;
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
   const [language, setLanguage] = useState<Language>(() => {
     return (localStorage.getItem('alexcipher_lang') as Language) || 'fr';
   });
@@ -36,7 +56,17 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Écouter les mises à jour PWA détectées par index.html
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('alexcipher_theme', theme);
+    window.dispatchEvent(new CustomEvent('theme-change', { detail: theme }));
+  }, [theme]);
+
+  useEffect(() => {
     const handleUpdate = () => {
       addToast(language === 'fr' ? "Une mise à jour est prête. Redémarrage imminent..." : "A new update is ready. Restarting soon...", 'success');
     };
@@ -45,11 +75,11 @@ const App: React.FC = () => {
   }, [addToast, language]);
 
   useEffect(() => {
-    // Gestion des raccourcis PWA (shortcuts)
     const params = new URLSearchParams(window.location.search);
     const pageParam = params.get('page') as Page;
     if (pageParam && ['dashboard', 'keys', 'faq'].includes(pageParam)) {
       setCurrentPage(pageParam);
+      setDisplayedPage(pageParam);
     }
   }, []);
 
@@ -58,24 +88,20 @@ const App: React.FC = () => {
   }, [language]);
 
   useEffect(() => {
-    // Détection iOS
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
     setIsIOS(isIOSDevice);
 
-    // Détection Standalone (Déjà installé)
     const standalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone;
     setIsStandalone(standalone);
 
     const handleBeforeInstallPrompt = (e: any) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      console.log('AlexCipher: Native install ready (WebAPK mode)');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     const handleAppInstalled = () => {
-      console.log('AlexCipher: Successfully integrated into OS App List');
       setDeferredPrompt(null);
       setShowInstallHub(false);
       setIsStandalone(true);
@@ -100,7 +126,7 @@ const App: React.FC = () => {
       setShowInstallHub(false);
       return;
     }
-    
+
     if (!deferredPrompt) {
       addToast(language === 'fr' ? "Veuillez utiliser le menu du navigateur pour installer." : "Please use the browser menu to install.", "error");
       setShowInstallHub(false);
@@ -126,26 +152,54 @@ const App: React.FC = () => {
   };
 
   const navigate = (page: Page) => {
-    setCurrentPage(page);
+    if (page === currentPage || isTransitioning) return;
+
+    const dir = (pageDepth[page] ?? 0) >= (pageDepth[currentPage] ?? 0) ? 'forward' : 'back';
+    setPrevPage(currentPage);
+    setTransitionDir(dir);
+
+    setIsTransitioning(true);
+    setDisplayedPage(page);
+
+    if (transitionTimer.current) clearTimeout(transitionTimer.current);
+    transitionTimer.current = setTimeout(() => {
+      setCurrentPage(page);
+      setIsTransitioning(false);
+    }, 300);
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const renderPage = () => {
-    switch (currentPage) {
+  useEffect(() => {
+    return () => {
+      if (transitionTimer.current) clearTimeout(transitionTimer.current);
+    };
+  }, []);
+
+  const getTransitionClass = () => {
+    if (!isTransitioning) return '';
+    if (transitionDir === 'forward') {
+      return 'page-enter';
+    }
+    return 'page-enter-back';
+  };
+
+  const renderPage = (page: Page) => {
+    switch (page) {
       case 'landing':
-        return <Hero onStart={() => navigate('dashboard')} language={language} />;
+        return <Hero key="landing" onStart={() => navigate('dashboard')} language={language} />;
       case 'dashboard':
-        return <Dashboard addToast={addToast} language={language} onNavigate={navigate} />;
+        return <Dashboard key="dashboard" addToast={addToast} language={language} onNavigate={navigate} />;
       case 'keys':
-        return <KeyVault addToast={addToast} language={language} onNavigate={navigate} />;
+        return <KeyVault key="keys" addToast={addToast} language={language} onNavigate={navigate} />;
       case 'faq':
-        return <FAQSection language={language} onNavigate={navigate} />;
+        return <FAQSection key="faq" language={language} onNavigate={navigate} />;
       case 'privacy':
-        return <LegalPage type="privacy" language={language} onNavigate={navigate} />;
+        return <LegalPage key="privacy" type="privacy" language={language} onNavigate={navigate} />;
       case 'terms':
-        return <LegalPage type="terms" language={language} onNavigate={navigate} />;
+        return <LegalPage key="terms" type="terms" language={language} onNavigate={navigate} />;
       default:
-        return <Hero onStart={() => navigate('dashboard')} language={language} />;
+        return <Hero key="landing" onStart={() => navigate('dashboard')} language={language} />;
     }
   };
 
@@ -155,13 +209,16 @@ const App: React.FC = () => {
       onNavigate={navigate} 
       language={language} 
       setLanguage={setLanguage}
+      theme={theme}
+      setTheme={setTheme}
       showInstallButton={(!!deferredPrompt || (isIOS && !isStandalone)) && !isStandalone}
       onInstallClick={handleInstallClick}
+      displayPage={displayedPage}
     >
       {!hasAcceptedTerms && (
         <AgreementModal language={language} onAccept={handleAcceptTerms} />
       )}
-      
+
       {showInstallHub && (
         <InstallHub 
           language={language} 
@@ -171,7 +228,9 @@ const App: React.FC = () => {
         />
       )}
 
-      {renderPage()}
+      <div className={`${getTransitionClass()} min-h-full`}>
+        {renderPage(displayedPage)}
+      </div>
       <ToastContainer toasts={toasts} />
     </Layout>
   );

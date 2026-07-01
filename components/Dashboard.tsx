@@ -26,7 +26,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
   const [result, setResult] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Robust Unicode Base64
   const utf8ToBase64 = (str: string) => btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(parseInt(p1, 16))));
   const base64ToUtf8 = (str: string) => decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
 
@@ -37,7 +36,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
     setIsProcessing(true);
     setResult('');
 
-    // Séquence de calcul immersive "Pro" (1.5s)
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     try {
@@ -75,9 +73,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
 
   const handleShare = async () => {
     if (!result) return;
-    
-    const shareMessage = `${t.shareText}\n\n${result}\n\n🔓 Déchiffrez-le ici : ${APP_URL}`;
-    
+
+    const shareMessage = `${t.shareText}\n\n${result}\n\n${language === 'fr' ? '🔓 Déchiffrez-le ici' : '🔓 Decrypt it here'} : ${APP_URL}`;
+
     if (navigator.share) {
       try {
         await navigator.share({ 
@@ -86,7 +84,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
           url: APP_URL
         });
       } catch (err) {
-        // En cas d'annulation ou d'erreur, on copie simplement
         copyToClipboard();
       }
     } else {
@@ -106,26 +103,31 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
     <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
       <button 
         onClick={() => onNavigate('landing')}
-        className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors mb-6 group text-sm font-medium"
+        className="flex items-center gap-2 transition-colors mb-6 group text-sm font-medium"
+        style={{ color: 'var(--text-muted)' }}
+        onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent)'}
+        onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
       >
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
         {common.backHome}
       </button>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-[2.5rem] shadow-2xl overflow-hidden">
-        {/* Tabs Stylisées */}
-        <div className="flex border-b border-slate-800 p-2.5 bg-slate-950/50">
+      <div className="border rounded-[2.5rem] shadow-2xl overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+        {/* Tabs */}
+        <div className="flex p-2.5" style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-tertiary)' }}>
           <button 
             disabled={isProcessing}
             onClick={() => { setActiveTab('encrypt'); reset(); }}
-            className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300 ${activeTab === 'encrypt' ? 'text-cyan-400 bg-cyan-400/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' : 'text-slate-500 hover:text-slate-300'}`}
+            className="flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300"
+            style={activeTab === 'encrypt' ? { color: 'var(--accent)', backgroundColor: 'var(--accent-soft)' } : { color: 'var(--text-muted)' }}
           >
             <Lock className="w-5 h-5" /> {t.encrypt}
           </button>
           <button 
             disabled={isProcessing}
             onClick={() => { setActiveTab('decrypt'); reset(); }}
-            className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300 ${activeTab === 'decrypt' ? 'text-indigo-400 bg-indigo-400/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' : 'text-slate-500 hover:text-slate-300'}`}
+            className="flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl font-bold transition-all duration-300"
+            style={activeTab === 'decrypt' ? { color: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)' } : { color: 'var(--text-muted)' }}
           >
             <Unlock className="w-5 h-5" /> {t.decrypt}
           </button>
@@ -137,10 +139,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
             <div className="space-y-10">
               <div className="relative">
                 <div className="flex justify-between items-end mb-4">
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em]">
+                  <label className="block text-[10px] font-black uppercase tracking-[0.25em]" style={{ color: 'var(--text-muted)' }}>
                     {activeTab === 'encrypt' ? t.labelSource : t.labelEncrypted}
                   </label>
-                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded bg-slate-950 border border-slate-800 ${sourceText.length > MAX_CHAR_LIMIT * 0.9 ? 'text-orange-500' : 'text-slate-600'}`}>
+                  <span className="text-[9px] font-bold px-2 py-0.5 rounded" style={sourceText.length > MAX_CHAR_LIMIT * 0.9 ? { color: '#f97316', backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-color)' } : { color: 'var(--text-muted)', backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-color)' }}>
                     {sourceText.length.toLocaleString()} / {MAX_CHAR_LIMIT.toLocaleString()}
                   </span>
                 </div>
@@ -150,13 +152,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                   maxLength={MAX_CHAR_LIMIT}
                   onChange={(e) => setSourceText(e.target.value)}
                   placeholder={activeTab === 'encrypt' ? t.placeholderSource : t.placeholderEncrypted}
-                  className="w-full h-56 bg-slate-950 border border-slate-800 rounded-3xl p-6 text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all resize-none shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] leading-relaxed"
+                  className="w-full h-56 border rounded-3xl p-6 transition-all resize-none leading-relaxed focus:outline-none focus:ring-2"
+                  style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)', color: 'var(--text-primary)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}
+                  onFocus={(e) => e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-soft)`}
+                  onBlur={(e) => e.currentTarget.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.05)'}
                 />
               </div>
 
               <div className="space-y-8">
                 <div>
-                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em] mb-4">
+                  <label className="block text-[10px] font-black uppercase tracking-[0.25em] mb-4" style={{ color: 'var(--text-muted)' }}>
                     {t.labelMethod}
                   </label>
                   <div className="relative group">
@@ -164,14 +169,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                       disabled={isProcessing}
                       value={method}
                       onChange={(e) => setMethod(e.target.value as CipherMethod)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4.5 text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all cursor-pointer appearance-none"
+                      className="w-full border rounded-2xl p-4.5 transition-all cursor-pointer appearance-none focus:outline-none focus:ring-2"
+                      style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
                     >
                       <option value={CipherMethod.AES}>{CipherMethod.AES}</option>
                       <option value={CipherMethod.VIGENERE}>{CipherMethod.VIGENERE}</option>
                       <option value={CipherMethod.CAESAR}>{CipherMethod.CAESAR}</option>
                       <option value={CipherMethod.BASE64}>{CipherMethod.BASE64}</option>
                     </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-600 group-hover:text-cyan-400 transition-colors">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none transition-colors" style={{ color: 'var(--text-muted)' }}>
                       <RefreshCcw className="w-4 h-4" />
                     </div>
                   </div>
@@ -187,7 +193,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                 )}
               </div>
 
-              {/* ACTION BUTTON - REDESIGNED PRO */}
+              {/* ACTION BUTTON */}
               <div className="pt-4">
                 <button 
                   onClick={handleAction}
@@ -198,52 +204,46 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                     : 'hover:scale-[1.01] hover:-translate-y-1'
                   }`}
                 >
-                  {/* Background Layers */}
                   <div className={`absolute inset-0 transition-all duration-700 ${
                     isProcessing 
-                    ? 'bg-slate-800' 
+                    ? '' 
                     : activeTab === 'encrypt' 
-                      ? 'bg-gradient-to-br from-cyan-400 via-cyan-500 to-cyan-600' 
+                      ? 'bg-gradient-to-br from-[var(--accent)] via-[var(--accent-dark)] to-[var(--accent-dark)]' 
                       : 'bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-700'
-                  }`} />
-                  
-                  {/* Glossy Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  
-                  {/* Animated Border Glow */}
-                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity blur-md ${activeTab === 'encrypt' ? 'bg-cyan-400/30' : 'bg-indigo-400/30'}`} />
+                  }`} style={isProcessing ? { backgroundColor: 'var(--bg-secondary)' } : {}} />
 
-                  {/* Content Layer */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity blur-md ${activeTab === 'encrypt' ? '' : ''}`} style={activeTab === 'encrypt' ? { backgroundColor: 'var(--accent)', opacity: 0.3 } : { backgroundColor: 'rgba(99, 102, 241, 0.3)' }} />
+
                   <div className="relative flex items-center justify-center gap-4 py-5 px-8">
                     {isProcessing ? (
                       <>
                         <div className="relative">
-                          <Loader2 className="w-6 h-6 text-cyan-400 animate-spin" />
-                          <div className="absolute inset-0 bg-cyan-400/20 blur-sm rounded-full animate-pulse" />
+                          <Loader2 className="w-6 h-6 animate-spin" style={{ color: 'var(--accent)' }} />
+                          <div className="absolute inset-0 blur-sm rounded-full animate-pulse" style={{ backgroundColor: 'var(--accent)', opacity: 0.2 }} />
                         </div>
-                        <span className="text-[11px] font-black uppercase tracking-[0.4em] text-white animate-pulse">
-                          {activeTab === 'encrypt' ? 'Chiffrement...' : 'Analyse du code...'}
+                        <span className="text-[11px] font-black uppercase tracking-[0.4em] animate-pulse text-white">
+                          {activeTab === 'encrypt' ? (language === 'fr' ? 'Chiffrement...' : 'Encrypting...') : (language === 'fr' ? 'Analyse du code...' : 'Analyzing code...')}
                         </span>
                       </>
                     ) : (
                       <>
-                        <div className="p-2 bg-black/10 rounded-lg group-hover:bg-black/20 transition-colors">
-                          {activeTab === 'encrypt' ? <Lock className="w-5 h-5 text-slate-900" /> : <Unlock className="w-5 h-5 text-white" />}
+                        <div className="p-2 rounded-lg group-hover:bg-black/20 transition-colors" style={{ backgroundColor: activeTab === 'encrypt' ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.1)' }}>
+                          {activeTab === 'encrypt' ? <Lock className="w-5 h-5 text-white" /> : <Unlock className="w-5 h-5 text-white" />}
                         </div>
-                        <span className={`text-sm font-black uppercase tracking-[0.25em] ${activeTab === 'encrypt' ? 'text-slate-950' : 'text-white'}`}>
+                        <span className="text-sm font-black uppercase tracking-[0.25em] text-white">
                           {activeTab === 'encrypt' ? t.btnEncrypt : t.btnDecrypt}
                         </span>
-                        <Fingerprint className={`w-5 h-5 opacity-40 group-hover:opacity-100 transition-all group-hover:rotate-12 ${activeTab === 'encrypt' ? 'text-slate-900' : 'text-white'}`} />
+                        <Fingerprint className="w-5 h-5 opacity-40 group-hover:opacity-100 transition-all group-hover:rotate-12 text-white" />
                       </>
                     )}
                   </div>
-                  
-                  {/* Progress Line when loading */}
+
                   {isProcessing && (
-                    <div className="absolute bottom-0 left-0 h-1 bg-cyan-400 transition-all duration-[1500ms] ease-out w-full" />
+                    <div className="absolute bottom-0 left-0 h-1 transition-all duration-[1500ms] ease-out w-full" style={{ backgroundColor: 'var(--accent)' }} />
                   )}
-                  
-                  {/* Hover Shine Animation */}
+
                   {!isProcessing && (
                     <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white/20 opacity-40 group-hover:animate-shine" />
                   )}
@@ -254,59 +254,59 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
             {/* Result Column */}
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-end mb-4">
-                <label className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.25em]">
+                <label className="block text-[10px] font-black uppercase tracking-[0.25em]" style={{ color: 'var(--text-muted)' }}>
                   {t.labelResult}
                 </label>
                 {result && !isProcessing && (
-                  <span className="text-[9px] font-bold text-cyan-500/60 animate-in fade-in tracking-widest">
+                  <span className="text-[9px] font-bold tracking-widest animate-in fade-in" style={{ color: 'var(--accent)' }}>
                     READY: {result.length.toLocaleString()} BYTES
                   </span>
                 )}
               </div>
-              
-              <div className="flex-grow flex flex-col bg-slate-950 border border-slate-800 rounded-[2.5rem] overflow-hidden relative min-h-[400px] shadow-[inset_0_4px_12px_rgba(0,0,0,0.5)]">
+
+              <div className="flex-grow flex flex-col border rounded-[2.5rem] overflow-hidden relative min-h-[400px]" style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)', boxShadow: 'inset 0 4px 12px rgba(0,0,0,0.05)' }}>
                 {isProcessing ? (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 backdrop-blur-md z-10 animate-in fade-in duration-500">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center backdrop-blur-md z-10 animate-in fade-in duration-500" style={{ backgroundColor: 'var(--overlay)' }}>
                     <div className="relative mb-8">
-                      <div className="absolute inset-0 bg-cyan-500/30 blur-2xl animate-pulse rounded-full" />
-                      <div className="relative w-32 h-32 border border-cyan-500/20 rounded-full flex items-center justify-center overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent animate-scan" />
-                        <Binary className="w-12 h-12 text-cyan-400 opacity-40 animate-pulse" />
-                        
-                        {/* Dot Matrix Decoration */}
+                      <div className="absolute inset-0 blur-2xl animate-pulse rounded-full" style={{ backgroundColor: 'var(--accent)', opacity: 0.3 }} />
+                      <div className="relative w-32 h-32 border rounded-full flex items-center justify-center overflow-hidden" style={{ borderColor: 'var(--accent-soft)' }}>
+                        <div className="absolute inset-0 animate-scan" style={{ background: `linear-gradient(to bottom, transparent, var(--accent-soft), transparent)` }} />
+                        <Binary className="w-12 h-12 animate-pulse" style={{ color: 'var(--accent)', opacity: 0.4 }} />
                         <div className="absolute inset-0 opacity-20 pointer-events-none">
-                          <div className="absolute top-2 left-1/4 w-1 h-1 bg-cyan-400 rounded-full animate-ping" />
-                          <div className="absolute bottom-4 right-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-ping" style={{animationDelay: '0.5s'}} />
-                          <div className="absolute top-1/2 right-4 w-1 h-1 bg-cyan-400 rounded-full animate-ping" style={{animationDelay: '1s'}} />
+                          <div className="absolute top-2 left-1/4 w-1 h-1 rounded-full animate-ping" style={{ backgroundColor: 'var(--accent)' }} />
+                          <div className="absolute bottom-4 right-1/3 w-1 h-1 rounded-full animate-ping" style={{ backgroundColor: 'var(--accent)', animationDelay: '0.5s' }} />
+                          <div className="absolute top-1/2 right-4 w-1 h-1 rounded-full animate-ping" style={{ backgroundColor: 'var(--accent)', animationDelay: '1s' }} />
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col items-center gap-3">
-                      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-500">Traitement Cybernétique</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.5em]" style={{ color: 'var(--accent)' }}>
+                        {language === 'fr' ? 'Traitement Cybernétique' : 'Cybernetic Processing'}
+                      </span>
                       <div className="flex gap-2">
                         {[1, 2, 3, 4, 5].map(i => (
                           <div 
                             key={i} 
-                            className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-bounce" 
-                            style={{animationDelay: `${i * 0.15}s`, opacity: 1 - (i * 0.15)}} 
+                            className="w-1.5 h-1.5 rounded-full animate-bounce" 
+                            style={{ backgroundColor: 'var(--accent)', animationDelay: `${i * 0.15}s`, opacity: 1 - (i * 0.15) }} 
                           />
                         ))}
                       </div>
                     </div>
                   </div>
                 ) : result ? (
-                  <div className="p-10 mono text-sm text-cyan-400/90 break-all h-full overflow-y-auto selection:bg-cyan-500/30 animate-in zoom-in-[0.98] duration-700 custom-scrollbar" translate="no">
-                    <div className="flex items-center gap-2 mb-4 text-[9px] font-black text-cyan-500/40 uppercase tracking-[0.2em] border-b border-cyan-500/10 pb-2">
-                      <ShieldCheck className="w-3 h-3" /> Sortie Sécurisée
+                  <div className="p-10 mono text-sm break-all h-full overflow-y-auto animate-in zoom-in-[0.98] duration-700 custom-scrollbar" style={{ color: 'var(--accent)' }} translate="no">
+                    <div className="flex items-center gap-2 mb-4 text-[9px] font-black uppercase tracking-[0.2em] pb-2" style={{ color: 'var(--accent)', borderBottom: '1px solid var(--accent-soft)' }}>
+                      <ShieldCheck className="w-3 h-3" /> {language === 'fr' ? 'Sortie Sécurisée' : 'Secure Output'}
                     </div>
                     {result}
                   </div>
                 ) : (
-                  <div className="flex-grow flex flex-col items-center justify-center p-12 text-center opacity-30 group-hover:opacity-50 transition-opacity">
-                    <div className="w-28 h-28 bg-slate-900 rounded-[2rem] flex items-center justify-center mb-8 border border-slate-800 shadow-xl">
-                      {activeTab === 'encrypt' ? <Shield className="w-12 h-12 text-slate-700" /> : <Unlock className="w-12 h-12 text-slate-700" />}
+                  <div className="flex-grow flex flex-col items-center justify-center p-12 text-center opacity-30 transition-opacity">
+                    <div className="w-28 h-28 rounded-[2rem] flex items-center justify-center mb-8 border" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
+                      {activeTab === 'encrypt' ? <Shield className="w-12 h-12" style={{ color: 'var(--text-muted)' }} /> : <Unlock className="w-12 h-12" style={{ color: 'var(--text-muted)' }} />}
                     </div>
-                    <p className="text-slate-600 text-[10px] font-black uppercase tracking-[0.3em] max-w-[150px] leading-loose">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] max-w-[150px] leading-loose" style={{ color: 'var(--text-muted)' }}>
                       {t.placeholderResult}
                     </p>
                   </div>
@@ -315,21 +315,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
 
               {result && !isProcessing && (
                 <div className="grid grid-cols-2 gap-5 mt-8 animate-in slide-in-from-bottom-6 duration-700">
-                  <button onClick={copyToClipboard} className="flex items-center justify-center gap-4 py-4.5 bg-slate-800 hover:bg-slate-700 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 border border-slate-700 shadow-lg group">
-                    <Copy className="w-4.5 h-4.5 text-cyan-400 group-hover:scale-110 transition-transform" /> 
+                  <button onClick={copyToClipboard} className="flex items-center justify-center gap-4 py-4.5 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 border shadow-lg group" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}>
+                    <Copy className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" style={{ color: 'var(--accent)' }} /> 
                     <span>{t.btnCopy}</span>
                   </button>
-                  <button onClick={handleShare} className="flex items-center justify-center gap-4 py-4.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 border-none shadow-[0_10px_30px_rgba(34,211,238,0.3)] group">
+                  <button onClick={handleShare} className="flex items-center justify-center gap-4 py-4.5 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 border-none text-white group" style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' }}>
                     <Share2 className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" /> 
                     <span>{t.btnShare}</span>
                   </button>
                 </div>
               )}
-              
+
               <button 
                 onClick={reset} 
                 disabled={isProcessing} 
-                className="mt-10 flex items-center justify-center gap-3 text-slate-500 hover:text-cyan-400 text-[10px] font-black uppercase tracking-[0.3em] transition-all group disabled:opacity-30"
+                className="mt-10 flex items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] transition-all group disabled:opacity-30"
+                style={{ color: 'var(--text-muted)' }}
+                onMouseEnter={(e) => { if (!isProcessing) e.currentTarget.style.color = 'var(--accent)'; }}
+                onMouseLeave={(e) => { if (!isProcessing) e.currentTarget.style.color = 'var(--text-muted)'; }}
               >
                 <RefreshCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-1000 ease-in-out" /> 
                 {t.newMsg}
@@ -338,10 +341,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
           </div>
         </div>
 
-        <div className="bg-slate-950/80 px-10 py-6 border-t border-slate-800 flex flex-wrap items-center justify-center gap-x-16 gap-y-4">
+        <div className="px-10 py-6 flex flex-wrap items-center justify-center gap-x-16 gap-y-4" style={{ borderTop: '1px solid var(--border-color)', backgroundColor: 'var(--bg-tertiary)' }}>
           {t.security.map((sec, i) => (
-            <div key={i} className="flex items-center gap-3 text-[9px] text-slate-600 font-black uppercase tracking-[0.3em]">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50" />
+            <div key={i} className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em]" style={{ color: 'var(--text-muted)' }}>
+              <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#10b981' }} />
               {sec}
             </div>
           ))}
@@ -367,15 +370,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
           width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(0,0,0,0.1);
+          background: transparent;
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(34, 211, 238, 0.1);
+          background: rgba(6, 182, 212, 0.15);
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(34, 211, 238, 0.2);
+          background: rgba(6, 182, 212, 0.3);
         }
       `}</style>
     </div>

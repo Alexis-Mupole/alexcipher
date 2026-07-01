@@ -27,7 +27,7 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
 
   const generateKey = () => {
     if (!newKeyName.trim()) return addToast(translations[language].keys.placeholderName, "error");
-    
+
     const newValue = Array.from(window.crypto.getRandomValues(new Uint8Array(24)))
       .map(b => b.toString(16).padStart(2, '0'))
       .join('');
@@ -100,47 +100,52 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
     <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
       <button 
         onClick={() => onNavigate('landing')}
-        className="flex items-center gap-2 text-slate-500 hover:text-cyan-400 transition-colors mb-6 group text-sm font-medium"
+        className="flex items-center gap-2 transition-colors mb-6 group text-sm font-medium"
+        style={{ color: 'var(--text-muted)' }}
+        onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent)'}
+        onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
       >
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
         {common.backHome}
       </button>
 
       <div className="mb-12 text-center lg:text-left">
-        <h2 className="text-4xl font-extrabold text-white mb-4 tracking-tight">{t.title}</h2>
-        <p className="text-slate-400 text-lg">{t.desc}</p>
+        <h2 className="text-4xl font-extrabold mb-4 tracking-tight" style={{ color: 'var(--text-primary)' }}>{t.title}</h2>
+        <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>{t.desc}</p>
       </div>
 
       <div className="grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-8 space-y-8">
           <div className="grid md:grid-cols-3 gap-6 items-start">
             <div className="md:col-span-1">
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:sticky md:top-24 shadow-xl">
-                <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                  <Plus className="w-5 h-5 text-cyan-400" /> {t.newKey}
+              <div className="border rounded-3xl p-6 md:sticky md:top-24 shadow-xl" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+                <h3 className="text-lg font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                  <Plus className="w-5 h-5" style={{ color: 'var(--accent)' }} /> {t.newKey}
                 </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-2">{t.labelName}</label>
+                    <label className="text-xs font-bold uppercase tracking-widest block mb-2" style={{ color: 'var(--text-muted)' }}>{t.labelName}</label>
                     <input 
                       type="text"
                       value={newKeyName}
                       onChange={(e) => setNewKeyName(e.target.value)}
                       placeholder={t.placeholderName}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all"
+                      className="w-full border rounded-2xl p-4 text-sm transition-all focus:outline-none focus:ring-2"
+                      style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
                     />
                   </div>
                   <button 
                     onClick={generateKey} 
-                    className="w-full bg-cyan-500 hover:bg-cyan-400 text-[#0f172a] font-bold py-4 rounded-2xl transition-all hover:scale-[1.02] shadow-lg shadow-cyan-500/10"
+                    className="w-full text-white font-bold py-4 rounded-2xl transition-all hover:scale-[1.02] shadow-lg"
+                    style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' }}
                   >
                     {t.btnGenerate}
                   </button>
                   <div className="grid grid-cols-2 gap-3 pt-2">
-                    <button onClick={handleExport} className="flex flex-col items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold py-3 rounded-xl border border-slate-700 transition-colors">
+                    <button onClick={handleExport} className="flex flex-col items-center justify-center gap-2 text-[10px] font-bold py-3 rounded-xl border transition-colors" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-secondary)' }}>
                       <Download className="w-4 h-4" /> {t.btnExport}
                     </button>
-                    <label className="flex flex-col items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold py-3 rounded-xl border border-slate-700 cursor-pointer text-center transition-colors">
+                    <label className="flex flex-col items-center justify-center gap-2 text-[10px] font-bold py-3 rounded-xl border cursor-pointer text-center transition-colors" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-secondary)' }}>
                       <Upload className="w-4 h-4" /> {t.btnImport}
                       <input type="file" className="hidden" accept=".json" onChange={handleImport} />
                     </label>
@@ -151,44 +156,51 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
 
             <div className="md:col-span-2 space-y-4 min-w-0">
               {keys.length === 0 ? (
-                <div className="bg-slate-900/50 border border-dashed border-slate-800 rounded-3xl p-16 text-center">
-                  <div className="w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-700">
-                    <KeyIcon className="w-8 h-8" />
+                <div className="border border-dashed rounded-3xl p-16 text-center" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                    <KeyIcon className="w-8 h-8" style={{ color: 'var(--text-muted)' }} />
                   </div>
-                  <p className="text-slate-500 font-medium">{t.empty}</p>
+                  <p className="font-medium" style={{ color: 'var(--text-muted)' }}>{t.empty}</p>
                 </div>
               ) : (
                 keys.map((key) => (
-                  <div key={key.id} className="bg-slate-900 border border-slate-800 rounded-3xl p-5 flex items-center gap-4 group hover:border-slate-700 hover:bg-slate-800/50 transition-all shadow-lg overflow-hidden">
+                  <div key={key.id} className="border rounded-3xl p-5 flex items-center gap-4 group transition-all shadow-lg overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
                     <div className="flex-grow min-w-0 overflow-hidden">
                       <div className="flex items-center gap-3 mb-2 min-w-0">
-                        <span className="font-bold text-white truncate text-base leading-tight">{key.name}</span>
-                        <span className="text-[9px] text-slate-500 whitespace-nowrap bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/50">
+                        <span className="font-bold truncate text-base leading-tight" style={{ color: 'var(--text-primary)' }}>{key.name}</span>
+                        <span className="text-[9px] px-2 py-0.5 rounded-md border" style={{ color: 'var(--text-muted)', backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)' }}>
                           {new Date(key.createdAt).toLocaleDateString()}
                         </span>
                       </div>
                       <div className="relative group/code">
                         <code 
-                          className="text-[11px] text-cyan-400/70 mono truncate block bg-black/40 p-2.5 rounded-xl border border-white/5 font-medium notranslate"
+                          className="text-[11px] mono truncate block p-2.5 rounded-xl border font-medium notranslate"
+                          style={{ color: 'var(--accent)', backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)' }}
                           translate="no"
                         >
                           {key.value}
                         </code>
                       </div>
                     </div>
-                    
-                    <div className="flex shrink-0 items-center gap-1 border-l border-slate-800 pl-3">
+
+                    <div className="flex shrink-0 items-center gap-1 pl-3" style={{ borderLeft: '1px solid var(--border-color)' }}>
                       <button 
                         onClick={() => copyKey(key.value)} 
-                        className="p-2.5 text-slate-400 hover:text-cyan-400 hover:bg-cyan-400/10 rounded-xl transition-all"
-                        title="Copier"
+                        className="p-2.5 rounded-xl transition-all"
+                        style={{ color: 'var(--text-muted)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.backgroundColor = 'var(--accent-soft)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                        title={language === 'fr' ? 'Copier' : 'Copy'}
                       >
                         <Copy className="w-4 h-4" />
                       </button>
                       <button 
                         onClick={() => deleteKey(key.id)} 
-                        className="p-2.5 text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
-                        title="Supprimer"
+                        className="p-2.5 rounded-xl transition-all"
+                        style={{ color: 'var(--text-muted)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                        title={language === 'fr' ? 'Supprimer' : 'Delete'}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -201,30 +213,30 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
         </div>
 
         <div className="lg:col-span-4">
-          <div className="bg-slate-900/30 border border-slate-800/50 rounded-3xl p-8 backdrop-blur-sm">
+          <div className="border rounded-3xl p-8 backdrop-blur-sm" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
             <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 bg-indigo-500/20 rounded-xl">
-                <GraduationCap className="w-6 h-6 text-indigo-400" />
+              <div className="p-2 rounded-xl" style={{ backgroundColor: 'rgba(99, 102, 241, 0.2)' }}>
+                <GraduationCap className="w-6 h-6" style={{ color: '#6366f1' }} />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white tracking-tight">{t.edu.title}</h3>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">{t.edu.subtitle}</p>
+                <h3 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>{t.edu.title}</h3>
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{t.edu.subtitle}</p>
               </div>
             </div>
 
             <div className="space-y-6">
               {t.edu.cards.map((card, i) => (
                 <div key={i} className="group relative">
-                  <div className="flex gap-4 p-5 bg-slate-900 border border-slate-800 rounded-2xl group-hover:border-indigo-500/50 transition-all">
-                    <div className="shrink-0 p-3 bg-slate-950 border border-slate-800 rounded-xl text-indigo-400 group-hover:scale-110 transition-transform">
+                  <div className="flex gap-4 p-5 border rounded-2xl transition-all" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
+                    <div className="shrink-0 p-3 border rounded-xl group-hover:scale-110 transition-transform" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: '#6366f1' }}>
                       {getEduIcon(card.icon)}
                     </div>
                     <div>
-                      <h4 className="font-bold text-white mb-2 flex items-center gap-2">
+                      <h4 className="font-bold mb-2 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                         {card.title}
-                        <ChevronRight className="w-3 h-3 text-slate-600 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+                        <ChevronRight className="w-3 h-3 transition-all" style={{ color: 'var(--text-muted)' }} />
                       </h4>
-                      <p className="text-slate-400 text-xs leading-relaxed">
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                         {card.desc}
                       </p>
                     </div>
@@ -233,12 +245,12 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
               ))}
             </div>
 
-            <div className="mt-10 p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl">
+            <div className="mt-10 p-6 rounded-2xl" style={{ backgroundColor: 'rgba(16, 185, 129, 0.05)', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
               <div className="flex items-center gap-3 mb-3">
-                <Leaf className="w-5 h-5 text-emerald-400" />
-                <span className="text-sm font-bold text-emerald-400">{t.eco.title}</span>
+                <Leaf className="w-5 h-5" style={{ color: '#34d399' }} />
+                <span className="text-sm font-bold" style={{ color: '#34d399' }}>{t.eco.title}</span>
               </div>
-              <p className="text-[11px] text-slate-500 leading-relaxed italic">
+              <p className="text-[11px] leading-relaxed italic" style={{ color: 'var(--text-muted)' }}>
                 {t.eco.desc}
               </p>
             </div>

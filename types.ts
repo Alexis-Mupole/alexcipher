@@ -1,3 +1,4 @@
+export type Theme = 'light' | 'dark';
 
 export enum CipherMethod {
   CAESAR = 'César',

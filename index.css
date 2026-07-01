@@ -1,0 +1,286 @@
+:root {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-elevated: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --accent: #06b6d4;
+  --accent-dark: #0891b2;
+  --accent-light: #22d3ee;
+  --overlay: rgba(255, 255, 255, 0.85);
+  --shadow: rgba(0, 0, 0, 0.06);
+  --card-bg: #ffffff;
+  --input-bg: #f8fafc;
+  --badge-bg: #ecfeff;
+  --footer-bg: #f1f5f9;
+  --toast-bg: #ffffff;
+  --accent-soft: rgba(6, 182, 212, 0.1);
+  --nav-hover: #e2e8f0;
+  --skeleton: #e2e8f0;
+  --tab-bar-bg: rgba(255, 255, 255, 0.92);
+  color-scheme: light;
+}
+
+.dark {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #0f172a;
+  --bg-elevated: #1e293b;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: #1e293b;
+  --border-subtle: #0f172a;
+  --accent: #22d3ee;
+  --accent-dark: #0891b2;
+  --accent-light: #67e8f9;
+  --overlay: rgba(15, 23, 42, 0.85);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --card-bg: #1e293b;
+  --input-bg: #0f172a;
+  --badge-bg: rgba(34, 211, 238, 0.1);
+  --footer-bg: #0f172a;
+  --toast-bg: #1e293b;
+  --accent-soft: rgba(34, 211, 238, 0.1);
+  --nav-hover: rgba(255, 255, 255, 0.05);
+  --skeleton: #1e293b;
+  --tab-bar-bg: rgba(30, 41, 59, 0.92);
+  color-scheme: dark;
+}
+
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+  color: var(--text-primary);
+}
+
+textarea, input { user-select: text !important; -webkit-user-select: text !important; }
+
+/* ─── Splash Screen ─── */
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.5s ease;
+}
+
+.loader-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid rgba(6, 182, 212, 0.1);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+/* ─── Shared ─── */
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes shine {
+  from { left: -100%; }
+  to { left: 100%; }
+}
+@keyframes scan {
+  0% { transform: translateY(-110%); }
+  100% { transform: translateY(110%); }
+}
+
+.animate-shine { animation: shine 1.8s infinite cubic-bezier(0.4, 0, 0.2, 1); }
+.animate-scan { animation: scan 2.5s ease-in-out infinite; }
+
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(6, 182, 212, 0.15); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(6, 182, 212, 0.3); }
+
+/* ─── Page Transitions ─── */
+.page-enter {
+  animation: pageSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.page-exit {
+  animation: pageSlideOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.page-enter-back {
+  animation: pageSlideInBack 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.page-exit-back {
+  animation: pageSlideOutBack 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageSlideIn {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pageSlideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(-30px); }
+}
+@keyframes pageSlideInBack {
+  from { opacity: 0; transform: translateX(-60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pageSlideOutBack {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(30px); }
+}
+
+/* ─── Ripple Effect ─── */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.25) 0%, transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.ripple:active::after {
+  opacity: 1;
+  transition: opacity 0s;
+}
+
+/* ─── Tab Bar ─── */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 64px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--tab-bar-bg);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid var(--border-color);
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 100%;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0 8px;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+.tab-btn svg {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tab-btn:active svg {
+  transform: scale(0.85);
+}
+
+.tab-btn .tab-indicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--accent);
+  transition: opacity 0.2s ease;
+}
+
+.tab-btn-home svg {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tab-btn-home:active svg {
+  transform: scale(0.85);
+}
+
+/* ─── Bottom Sheet (mobile nav) ─── */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+.sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 201;
+  max-height: 85vh;
+  border-radius: 24px 24px 0 0;
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+  animation: sheetUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  margin: 10px auto 4px;
+  background: var(--text-muted);
+  opacity: 0.4;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes sheetDown {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+/* ─── Native Scroll Containers ─── */
+.native-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+}
+
+/* ─── Main content padding for tab bar ─── */
+.has-tab-bar {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}
