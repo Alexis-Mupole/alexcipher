@@ -20,12 +20,20 @@ const pageDepth: Record<Page, number> = {
   terms: 2,
 };
 
+const getInitialPage = (): Page => {
+  const hash = (window.location.hash.replace('#', '') || '') as Page;
+  const saved = localStorage.getItem('alexcipher_page') as Page;
+  const page = hash || saved || 'landing';
+  const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms'];
+  return validPages.includes(page) ? page : 'landing';
+};
+
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<Page>('landing');
+  const [currentPage, setCurrentPage] = useState<Page>(getInitialPage);
   const [prevPage, setPrevPage] = useState<Page | null>(null);
   const [transitionDir, setTransitionDir] = useState<'forward' | 'back'>('forward');
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [displayedPage, setDisplayedPage] = useState<Page>('landing');
+  const [displayedPage, setDisplayedPage] = useState<Page>(getInitialPage);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isIOS, setIsIOS] = useState(false);
@@ -47,8 +55,6 @@ const App: React.FC = () => {
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState<boolean>(() => {
     return localStorage.getItem('alexcipher_accepted') === 'true';
   });
-
-  const [initialHashRead, setInitialHashRead] = useState(false);
 
   const addToast = useCallback((text: string, type: 'success' | 'error' = 'success') => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -101,20 +107,6 @@ const App: React.FC = () => {
   }, [currentPage, isTransitioning]);
 
   useEffect(() => {
-    const hash = (window.location.hash.replace('#', '') || 'landing') as Page;
-    const saved = localStorage.getItem('alexcipher_page') as Page;
-    const initialPage = hash !== 'landing' ? hash : (saved || 'landing');
-    const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms'];
-
-    if (validPages.includes(initialPage) && initialPage !== 'landing') {
-      setCurrentPage(initialPage);
-      setDisplayedPage(initialPage);
-    }
-    setInitialHashRead(true);
-  }, []);
-
-  useEffect(() => {
-    if (!initialHashRead) return;
     const onHashChange = () => {
       const hash = (window.location.hash.replace('#', '') || 'landing') as Page;
       const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms'];
@@ -124,7 +116,7 @@ const App: React.FC = () => {
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
-  }, [initialHashRead, doNavigate]);
+  }, [doNavigate]);
 
   useEffect(() => {
     localStorage.setItem('alexcipher_lang', language);
