@@ -21,8 +21,8 @@ export const AgreementModal: React.FC<AgreementModalProps> = ({ language, onAcce
 
       <div className="relative w-full max-w-lg max-h-[90vh] border rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in duration-300" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
         <div className="p-6 md:p-8 text-center overflow-y-auto">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'var(--accent-soft)' }}>
-            <ShieldCheck className="w-8 h-8" style={{ color: 'var(--accent)' }} />
+          <div className="icon-box icon-box-glow w-16 h-16 mx-auto mb-6" style={{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' }}>
+            <ShieldCheck className="w-8 h-8" />
           </div>
 
           <h2 className="text-2xl font-bold mb-4 tracking-tight" style={{ color: 'var(--text-primary)' }}>
@@ -34,7 +34,7 @@ export const AgreementModal: React.FC<AgreementModalProps> = ({ language, onAcce
           </p>
 
           <div className="space-y-4 text-left mb-8">
-            <label className="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all group" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
+            <label className="card-hover flex items-start gap-4 p-4 border rounded-2xl cursor-pointer" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
               <input 
                 type="checkbox" 
                 checked={agreed1} 
@@ -47,7 +47,7 @@ export const AgreementModal: React.FC<AgreementModalProps> = ({ language, onAcce
               </span>
             </label>
 
-            <label className="flex items-start gap-4 p-4 border rounded-2xl cursor-pointer transition-all group" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
+            <label className="card-hover flex items-start gap-4 p-4 border rounded-2xl cursor-pointer" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
               <input 
                 type="checkbox" 
                 checked={agreed2} 
@@ -67,8 +67,8 @@ export const AgreementModal: React.FC<AgreementModalProps> = ({ language, onAcce
             <button 
               disabled={!canContinue}
               onClick={onAccept}
-              className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all text-white"
-              style={canContinue ? { background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' } : { backgroundColor: 'var(--bg-secondary)', color: 'var(--text-muted)' }}
+              className="btn-primary w-full"
+              style={!canContinue ? { opacity: 0.4, pointerEvents: 'none' as React.CSSProperties['pointerEvents'], background: 'var(--bg-secondary)', color: 'var(--text-muted)' } : {}}
             >
               <CheckCircle className="w-5 h-5" />
               {t.btn}

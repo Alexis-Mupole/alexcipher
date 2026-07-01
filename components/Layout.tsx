@@ -63,8 +63,8 @@ export const Layout: React.FC<LayoutProps> = ({
             >
               <div className="relative">
                 <div className="absolute inset-0 blur-lg opacity-20 group-hover:opacity-40 transition-opacity rounded-xl" style={{ backgroundColor: 'var(--accent)' }}></div>
-                <div className="relative p-2 rounded-xl group-hover:scale-110 transition-all duration-300 shadow-lg" style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' }}>
-                  <Shield className="w-5 h-5 md:w-6 md:h-6" style={{ color: '#fff' }} />
+                <div className="icon-box w-9 h-9 md:w-10 md:h-10 shadow-lg group-hover:shadow-xl" style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))', color: '#fff' }}>
+                  <Shield className="w-5 h-5 md:w-5 md:h-5" />
                 </div>
               </div>
               <span className="text-xl md:text-2xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>
@@ -257,8 +257,8 @@ export const Layout: React.FC<LayoutProps> = ({
           <div className="grid md:grid-cols-4 gap-16 mb-16 text-center md:text-left">
             <div className="col-span-1 md:col-span-2 flex flex-col items-center md:items-start">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-1.5 rounded-lg" style={{ backgroundColor: 'var(--accent-soft)' }}>
-                  <Shield className="w-6 h-6" style={{ color: 'var(--accent)' }} />
+                <div className="icon-box w-10 h-10" style={{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' }}>
+                  <Shield className="w-5 h-5" />
                 </div>
                 <span className="text-2xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>Alex<span style={{ color: 'var(--accent)' }}>Cipher</span></span>
               </div>
@@ -283,14 +283,14 @@ export const Layout: React.FC<LayoutProps> = ({
               <h4 className="font-bold mb-8 text-[10px] uppercase tracking-[0.3em]" style={{ color: 'var(--text-muted)' }}>Contact</h4>
               <div className="space-y-4 w-full">
                 <a href="mailto:regusopus@gmail.com" className="flex items-center justify-center md:justify-start gap-4 text-xs font-bold uppercase tracking-widest transition-all group" style={{ color: 'var(--text-muted)' }}>
-                  <div className="p-2.5 rounded-xl transition-colors" style={{ backgroundColor: 'var(--accent-soft)' }}>
-                    <Mail className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+                  <div className="icon-box w-9 h-9" style={{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' }}>
+                    <Mail className="w-4 h-4" />
                   </div>
                   regusopus@gmail.com
                 </a>
                 <a href="https://wa.me/243997306308" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-4 text-xs font-bold uppercase tracking-widest transition-all group" style={{ color: 'var(--text-muted)' }}>
-                  <div className="p-2.5 rounded-xl transition-colors" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)' }}>
-                    <Phone className="w-4 h-4" style={{ color: '#10b981' }} />
+                  <div className="icon-box w-9 h-9" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
+                    <Phone className="w-4 h-4" />
                   </div>
                   {t.whatsapp}
                 </a>

@@ -50,15 +50,13 @@ export const Hero: React.FC<HeroProps> = ({ onStart, language }) => {
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16 md:mb-20 px-4">
           <button 
             onClick={onStart}
-            className="flex items-center justify-center gap-3 font-bold px-8 py-4 rounded-2xl transition-all hover:scale-[1.02] shadow-xl text-white"
-            style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' }}
+            className="btn-primary"
           >
             {t.ctaStart} <ArrowRight className="w-5 h-5" />
           </button>
           <button 
             onClick={() => setIsHowItWorksOpen(true)}
-            className="flex items-center justify-center gap-2 font-semibold px-8 py-4 rounded-2xl border transition-all"
-            style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-secondary)' }}
+            className="btn-secondary"
           >
             {t.ctaHow}
           </button>
@@ -70,8 +68,8 @@ export const Hero: React.FC<HeroProps> = ({ onStart, language }) => {
             { icon: <Lock className="w-6 h-6" style={{ color: '#6366f1' }} />, ...t.features[1] },
             { icon: <Zap className="w-6 h-6" style={{ color: '#10b981' }} />, ...t.features[2] }
           ].map((feature, i) => (
-            <div key={i} className="p-6 md:p-8 rounded-3xl border transition-all group text-left" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform" style={{ backgroundColor: 'var(--accent-soft)' }}>
+            <div key={i} className="card-hover p-6 md:p-8 rounded-3xl border text-left" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
+              <div className="icon-box icon-box-glow w-12 h-12 mb-6" style={{ backgroundColor: 'var(--accent-soft)' }}>
                 {feature.icon}
               </div>
               <h3 className="text-xl font-bold mb-3 tracking-tight" style={{ color: 'var(--text-primary)' }}>{feature.title}</h3>
@@ -95,9 +93,9 @@ export const Hero: React.FC<HeroProps> = ({ onStart, language }) => {
                 <ShieldCheck className="w-5 h-5" style={{ color: 'var(--accent)' }} />
                 {t.howItWorks.title}
               </h2>
-              <button 
-                onClick={() => setIsHowItWorksOpen(false)}
-                className="p-2 rounded-xl transition-colors" style={{ color: 'var(--text-muted)', backgroundColor: 'var(--bg-secondary)' }}
+                <button 
+                  onClick={() => setIsHowItWorksOpen(false)}
+                  className="icon-box w-9 h-9" style={{ color: 'var(--text-muted)', backgroundColor: 'var(--bg-secondary)' }}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -108,7 +106,7 @@ export const Hero: React.FC<HeroProps> = ({ onStart, language }) => {
                 {t.howItWorks.steps.map((step, i) => (
                   <div key={i} className="flex gap-4 md:gap-6 group">
                     <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 md:w-12 md:h-12 border rounded-2xl flex items-center justify-center shrink-0 transition-colors" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--accent)' }}>
+                      <div className="icon-box w-10 h-10 md:w-12 md:h-12 border" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--accent)' }}>
                         {getStepIcon(step.icon)}
                       </div>
                       {i < t.howItWorks.steps.length - 1 && (

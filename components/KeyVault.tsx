@@ -118,9 +118,9 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
         <div className="lg:col-span-8 space-y-8">
           <div className="grid md:grid-cols-3 gap-6 items-start">
             <div className="md:col-span-1">
-              <div className="border rounded-3xl p-6 md:sticky md:top-24 shadow-xl" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+              <div className="border rounded-3xl p-6 md:sticky md:top-24 shadow-xl card-hover" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
                 <h3 className="text-lg font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                  <Plus className="w-5 h-5" style={{ color: 'var(--accent)' }} /> {t.newKey}
+                  <div className="icon-box w-8 h-8" style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-soft)' }}><Plus className="w-4 h-4" /></div> {t.newKey}
                 </h3>
                 <div className="space-y-4">
                   <div>
@@ -136,16 +136,15 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
                   </div>
                   <button 
                     onClick={generateKey} 
-                    className="w-full text-white font-bold py-4 rounded-2xl transition-all hover:scale-[1.02] shadow-lg"
-                    style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' }}
+                    className="btn-primary w-full"
                   >
                     {t.btnGenerate}
                   </button>
                   <div className="grid grid-cols-2 gap-3 pt-2">
-                    <button onClick={handleExport} className="flex flex-col items-center justify-center gap-2 text-[10px] font-bold py-3 rounded-xl border transition-colors" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-secondary)' }}>
+                    <button onClick={handleExport} className="btn-secondary py-3">
                       <Download className="w-4 h-4" /> {t.btnExport}
                     </button>
-                    <label className="flex flex-col items-center justify-center gap-2 text-[10px] font-bold py-3 rounded-xl border cursor-pointer text-center transition-colors" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-secondary)' }}>
+                    <label className="btn-secondary py-3 cursor-pointer text-center">
                       <Upload className="w-4 h-4" /> {t.btnImport}
                       <input type="file" className="hidden" accept=".json" onChange={handleImport} />
                     </label>
@@ -157,14 +156,14 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
             <div className="md:col-span-2 space-y-4 min-w-0">
               {keys.length === 0 ? (
                 <div className="border border-dashed rounded-3xl p-16 text-center" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'var(--bg-secondary)' }}>
-                    <KeyIcon className="w-8 h-8" style={{ color: 'var(--text-muted)' }} />
+                  <div className="empty-state-icon">
+                    <KeyIcon className="w-8 h-8" />
                   </div>
                   <p className="font-medium" style={{ color: 'var(--text-muted)' }}>{t.empty}</p>
                 </div>
               ) : (
                 keys.map((key) => (
-                  <div key={key.id} className="border rounded-3xl p-5 flex items-center gap-4 group transition-all shadow-lg overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+                  <div key={key.id} className="card-hover border rounded-3xl p-5 flex items-center gap-4 shadow-lg overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
                     <div className="flex-grow min-w-0 overflow-hidden">
                       <div className="flex items-center gap-3 mb-2 min-w-0">
                         <span className="font-bold truncate text-base leading-tight" style={{ color: 'var(--text-primary)' }}>{key.name}</span>
@@ -213,10 +212,10 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
         </div>
 
         <div className="lg:col-span-4">
-          <div className="border rounded-3xl p-8 backdrop-blur-sm" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+          <div className="glass-card rounded-3xl p-8">
             <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 rounded-xl" style={{ backgroundColor: 'rgba(99, 102, 241, 0.2)' }}>
-                <GraduationCap className="w-6 h-6" style={{ color: '#6366f1' }} />
+              <div className="icon-box w-11 h-11" style={{ backgroundColor: 'rgba(99, 102, 241, 0.2)', color: '#6366f1' }}>
+                <GraduationCap className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>{t.edu.title}</h3>
@@ -227,8 +226,8 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
             <div className="space-y-6">
               {t.edu.cards.map((card, i) => (
                 <div key={i} className="group relative">
-                  <div className="flex gap-4 p-5 border rounded-2xl transition-all" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
-                    <div className="shrink-0 p-3 border rounded-xl group-hover:scale-110 transition-transform" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: '#6366f1' }}>
+                  <div className="card-hover flex gap-4 p-5 border rounded-2xl" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
+                    <div className="icon-box w-11 h-11 border" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: '#6366f1' }}>
                       {getEduIcon(card.icon)}
                     </div>
                     <div>
@@ -245,10 +244,10 @@ export const KeyVault: React.FC<KeyVaultProps> = ({ addToast, language, onNaviga
               ))}
             </div>
 
-            <div className="mt-10 p-6 rounded-2xl" style={{ backgroundColor: 'rgba(16, 185, 129, 0.05)', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
+            <div className="mt-10 p-6 rounded-2xl" style={{ backgroundColor: 'rgba(16, 185, 129, 0.05)', border: '1px solid rgba(16, 185, 129, 0.15)' }}>
               <div className="flex items-center gap-3 mb-3">
                 <Leaf className="w-5 h-5" style={{ color: '#34d399' }} />
-                <span className="text-sm font-bold" style={{ color: '#34d399' }}>{t.eco.title}</span>
+                <span className="text-sm font-bold" style={{ background: 'linear-gradient(135deg, #34d399, #10b981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t.eco.title}</span>
               </div>
               <p className="text-[11px] leading-relaxed italic" style={{ color: 'var(--text-muted)' }}>
                 {t.eco.desc}

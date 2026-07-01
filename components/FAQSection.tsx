@@ -44,12 +44,12 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ language, onNavigate }) 
       {/* Intro Cards */}
       <div className="grid md:grid-cols-3 gap-6 mb-20">
         {[
-          { icon: <ServerOff className="w-8 h-8" style={{ color: '#f97316' }} />, ...t.features[0] },
-          { icon: <ShieldCheck className="w-8 h-8" style={{ color: '#10b981' }} />, ...t.features[1] },
-          { icon: <Zap className="w-8 h-8" style={{ color: 'var(--accent)' }} />, ...t.features[2] },
-        ].map((item, i) => (
-          <div key={i} className="border p-8 rounded-3xl text-center transition-all group" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
-            <div className="flex justify-center mb-6 group-hover:scale-110 transition-transform">{item.icon}</div>
+              { icon: <ServerOff className="w-6 h-6" />, color: '#f97316', bg: 'rgba(249, 115, 22, 0.1)', ...t.features[0] },
+              { icon: <ShieldCheck className="w-6 h-6" />, color: '#10b981', bg: 'rgba(16, 185, 129, 0.1)', ...t.features[1] },
+              { icon: <Zap className="w-6 h-6" />, color: 'var(--accent)', bg: 'var(--accent-soft)', ...t.features[2] },
+          ].map((item, i) => (
+            <div key={i} className="card-hover border p-8 rounded-3xl text-center" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+              <div className="icon-box w-14 h-14 mx-auto mb-6" style={{ backgroundColor: item.bg, color: item.color }}>{item.icon}</div>
             <h4 className="font-bold mb-2 text-xl" style={{ color: 'var(--text-primary)' }}>{item.title}</h4>
             <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{item.desc}</p>
           </div>
@@ -66,10 +66,10 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ language, onNavigate }) 
           </div>
 
           {t.tips.map((tip, i) => (
-            <div key={i} className="border p-6 rounded-2xl relative overflow-hidden group" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+            <div key={i} className="card-hover border p-6 rounded-2xl relative overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
               <div className="absolute top-0 left-0 w-1 h-full transition-opacity" style={{ backgroundColor: 'var(--accent)', opacity: 0 }} />
               <div className="flex gap-4">
-                <div className="p-2 rounded-lg shrink-0 h-fit" style={{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' }}>
+                <div className="icon-box w-10 h-10 shrink-0" style={{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' }}>
                   {tipIcons[i % tipIcons.length]}
                 </div>
                 <div>
@@ -90,7 +90,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ language, onNavigate }) 
 
           <div className="space-y-4">
             {t.items.map((item, i) => (
-              <div key={i} className="border rounded-2xl p-6 transition-colors" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+              <div key={i} className="card-hover border rounded-2xl p-6" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
                 <h3 className="text-lg font-bold mb-3 flex items-start gap-3" style={{ color: 'var(--text-primary)' }}>
                   <span className="font-mono mt-1 text-sm" style={{ color: 'var(--accent)' }}>Q.</span>
                   {item.q}
@@ -108,8 +108,10 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ language, onNavigate }) 
       </div>
 
       {/* Bottom Security Note */}
-      <div className="mt-20 p-8 rounded-3xl text-center" style={{ backgroundColor: 'var(--accent-soft)', border: '1px solid var(--accent)' }}>
-        <ShieldCheck className="w-10 h-10 mx-auto mb-4" style={{ color: 'var(--accent)' }} />
+      <div className="glass-card mt-20 p-8 rounded-3xl text-center">
+        <div className="icon-box icon-box-glow w-14 h-14 mx-auto mb-4" style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-soft)' }}>
+          <ShieldCheck className="w-7 h-7" />
+        </div>
         <h4 className="font-bold text-lg mb-2" style={{ color: 'var(--text-primary)' }}>
           {language === 'fr' ? 'Sécurité par Design' : 'Security by Design'}
         </h4>

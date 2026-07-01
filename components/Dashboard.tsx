@@ -302,9 +302,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                     {result}
                   </div>
                 ) : (
-                  <div className="flex-grow flex flex-col items-center justify-center p-12 text-center opacity-30 transition-opacity">
-                    <div className="w-28 h-28 rounded-[2rem] flex items-center justify-center mb-8 border" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}>
-                      {activeTab === 'encrypt' ? <Shield className="w-12 h-12" style={{ color: 'var(--text-muted)' }} /> : <Unlock className="w-12 h-12" style={{ color: 'var(--text-muted)' }} />}
+                  <div className="flex-grow flex flex-col items-center justify-center p-12 text-center transition-opacity">
+                    <div className="empty-state-icon">
+                      {activeTab === 'encrypt' ? <Shield className="w-8 h-8" /> : <Unlock className="w-8 h-8" />}
                     </div>
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] max-w-[150px] leading-loose" style={{ color: 'var(--text-muted)' }}>
                       {t.placeholderResult}
@@ -315,12 +315,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
 
               {result && !isProcessing && (
                 <div className="grid grid-cols-2 gap-5 mt-8 animate-in slide-in-from-bottom-6 duration-700">
-                  <button onClick={copyToClipboard} className="flex items-center justify-center gap-4 py-4.5 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 border shadow-lg group" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}>
-                    <Copy className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" style={{ color: 'var(--accent)' }} /> 
+                  <button onClick={copyToClipboard} className="btn-secondary">
+                    <Copy className="w-4 h-4" /> 
                     <span>{t.btnCopy}</span>
                   </button>
-                  <button onClick={handleShare} className="flex items-center justify-center gap-4 py-4.5 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 border-none text-white group" style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-dark))' }}>
-                    <Share2 className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" /> 
+                  <button onClick={handleShare} className="btn-primary">
+                    <Share2 className="w-4 h-4" /> 
                     <span>{t.btnShare}</span>
                   </button>
                 </div>
@@ -343,8 +343,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
 
         <div className="px-10 py-6 flex flex-wrap items-center justify-center gap-x-16 gap-y-4" style={{ borderTop: '1px solid var(--border-color)', backgroundColor: 'var(--bg-tertiary)' }}>
           {t.security.map((sec, i) => (
-            <div key={i} className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em]" style={{ color: 'var(--text-muted)' }}>
-              <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#10b981' }} />
+            <div key={i} className="tag" style={{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--accent-soft)' }}>
+              <span className="status-dot" style={{ color: '#10b981' }} />
               {sec}
             </div>
           ))}

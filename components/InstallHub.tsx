@@ -51,10 +51,10 @@ export const InstallHub: React.FC<InstallHubProps> = ({ language, onClose, onTri
 
         {/* Header */}
         <div className="p-6 md:p-8 flex items-center justify-between shrink-0" style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-elevated)' }}>
-          <div className="flex items-center gap-4">
-            <div className="p-3.5 border rounded-2xl" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--accent)' }}>
-              {step === 'preparing' ? <Loader2 className="w-6 h-6 animate-spin" /> : <Download className="w-6 h-6" />}
-            </div>
+            <div className="flex items-center gap-4">
+              <div className="icon-box w-14 h-14 border" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--accent)' }}>
+                {step === 'preparing' ? <Loader2 className="w-6 h-6 animate-spin" /> : <Download className="w-6 h-6" />}
+              </div>
             <div>
               <h2 className="text-xl md:text-2xl font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 {step === 'preparing' ? (language === 'fr' ? 'Initialisation...' : 'Initializing...') : t.title}
@@ -136,11 +136,11 @@ export const InstallHub: React.FC<InstallHubProps> = ({ language, onClose, onTri
             <div className="grid gap-5 animate-in fade-in slide-in-from-bottom-6">
               <button 
                 onClick={startNativeInstall}
-                className="group relative flex items-center gap-6 p-8 border rounded-[2rem] transition-all text-left active:scale-[0.98] shadow-xl"
+                className="card-hover-glow group relative flex items-center gap-6 p-8 border rounded-[2rem] text-left shadow-xl"
                 style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}
               >
                 <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, var(--accent-soft), transparent)' }} />
-                <div className="shrink-0 p-5 border rounded-2xl transition-all shadow-xl" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: 'var(--accent)' }}>
+                <div className="icon-box w-[72px] h-[72px] border shadow-xl" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: 'var(--accent)' }}>
                   <Package className="w-8 h-8" />
                 </div>
                 <div className="flex-grow min-w-0">
@@ -155,11 +155,11 @@ export const InstallHub: React.FC<InstallHubProps> = ({ language, onClose, onTri
 
               <button 
                 onClick={onTriggerInstall}
-                className="group relative flex items-center gap-6 p-8 border rounded-[2rem] transition-all text-left active:scale-[0.98] shadow-xl"
+                className="card-hover-glow group relative flex items-center gap-6 p-8 border rounded-[2rem] text-left shadow-xl"
                 style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }}
               >
                 <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, rgba(99, 102, 241, 0.05), transparent)' }} />
-                <div className="shrink-0 p-5 border rounded-2xl transition-all shadow-xl" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: '#6366f1' }}>
+                <div className="icon-box w-[72px] h-[72px] border shadow-xl" style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border-color)', color: '#6366f1' }}>
                   <Home className="w-8 h-8" />
                 </div>
                 <div className="flex-grow min-w-0">
@@ -169,8 +169,10 @@ export const InstallHub: React.FC<InstallHubProps> = ({ language, onClose, onTri
                 <ChevronRight className="w-6 h-6 shrink-0" style={{ color: 'var(--border-color)' }} />
               </button>
 
-              <div className="mt-6 flex items-start gap-4 p-6 rounded-[1.5rem]" style={{ backgroundColor: 'var(--accent-soft)', border: '1px solid var(--accent)' }}>
-                <Info className="w-5 h-5 shrink-0 mt-0.5" style={{ color: 'var(--accent)' }} />
+              <div className="glass-card mt-6 flex items-start gap-4 p-6 rounded-[1.5rem]" style={{ backgroundColor: 'var(--accent-soft)' }}>
+                <div className="icon-box w-8 h-8 shrink-0" style={{ color: 'var(--accent)', backgroundColor: 'var(--accent-soft)' }}>
+                  <Info className="w-4 h-4" />
+                </div>
                 <p className="text-[10px] font-medium leading-relaxed uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
                   {language === 'fr' 
                     ? "L'installation native (WebAPK) place AlexCipher dans votre tiroir d'applications Android. Elle garantit une navigation sans barre d'adresse et un accès sécurisé immédiat."
@@ -191,10 +193,7 @@ export const InstallHub: React.FC<InstallHubProps> = ({ language, onClose, onTri
           </div>
           <button 
             onClick={onClose}
-            className="w-full sm:w-auto px-12 py-4 text-[12px] font-black uppercase tracking-[0.5em] transition-all border border-transparent rounded-2xl active:scale-95"
-            style={{ color: 'var(--text-muted)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.borderColor = 'var(--accent-soft)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'transparent'; }}
+            className="btn-secondary w-full sm:w-auto"
           >
             {t.close}
           </button>

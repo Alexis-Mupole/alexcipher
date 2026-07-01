@@ -27,11 +27,11 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, language, onNavigate
       </button>
 
       <div className="text-center mb-16">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}>
+        <div className="icon-box icon-box-glow w-16 h-16 mx-auto mb-6" style={{ backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: type === 'privacy' ? 'var(--accent)' : '#6366f1' }}>
           {type === 'privacy' ? (
-            <Shield className="w-8 h-8" style={{ color: 'var(--accent)' }} />
+            <Shield className="w-8 h-8" />
           ) : (
-            <ScrollText className="w-8 h-8" style={{ color: '#6366f1' }} />
+            <ScrollText className="w-8 h-8" />
           )}
         </div>
         <h1 className="text-4xl font-extrabold mb-4 tracking-tight" style={{ color: 'var(--text-primary)' }}>
@@ -44,10 +44,10 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, language, onNavigate
 
       <div className="space-y-12">
         {content.sections.map((section, idx) => (
-          <section key={idx} className="border p-8 rounded-3xl relative overflow-hidden group" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
-            <div className="absolute top-0 left-0 w-1 h-full transition-opacity" style={{ backgroundColor: type === 'privacy' ? 'var(--accent)' : '#6366f1', opacity: 0 }} />
+          <section key={idx} className="card-hover border p-8 rounded-3xl relative overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+            <div className="absolute top-0 left-0 w-1 h-full transition-opacity group-hover:opacity-100" style={{ backgroundColor: type === 'privacy' ? 'var(--accent)' : '#6366f1', opacity: 0 }} />
             <div className="flex items-start gap-4">
-              <div className="p-2 rounded-lg mt-1" style={{ backgroundColor: type === 'privacy' ? 'var(--accent-soft)' : 'rgba(99, 102, 241, 0.1)', color: type === 'privacy' ? 'var(--accent)' : '#6366f1' }}>
+              <div className="icon-box w-10 h-10 mt-1" style={{ backgroundColor: type === 'privacy' ? 'var(--accent-soft)' : 'rgba(99, 102, 241, 0.1)', color: type === 'privacy' ? 'var(--accent)' : '#6366f1' }}>
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <div>

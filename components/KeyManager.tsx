@@ -75,7 +75,7 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
       </div>
 
       {/* Content Area */}
-      <div className="p-4 rounded-2xl border relative min-h-[160px] flex flex-col justify-center" style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)' }}>
+      <div className="glass-card p-4 rounded-2xl relative min-h-[160px] flex flex-col justify-center" style={{ backgroundColor: 'var(--input-bg)' }}>
         {activeTab === 'manual' && (
           <div className="space-y-3 animate-in fade-in duration-300">
             <div className="relative">
@@ -187,8 +187,10 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
         )}
       </div>
 
-      <div className="flex gap-3 p-3 rounded-xl" style={{ backgroundColor: 'rgba(249, 115, 22, 0.05)', border: '1px solid rgba(249, 115, 22, 0.1)' }}>
-        <Info className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#fb923c' }} />
+      <div className="glass-card flex gap-3 p-3 rounded-xl" style={{ backgroundColor: 'rgba(249, 115, 22, 0.05)' }}>
+        <div className="icon-box w-7 h-7 shrink-0" style={{ color: '#fb923c', backgroundColor: 'rgba(249, 115, 22, 0.1)' }}>
+          <Info className="w-4 h-4" />
+        </div>
         <p className="text-[10px] leading-relaxed italic" style={{ color: 'var(--text-muted)' }}>
           {t.warning}
         </p>
