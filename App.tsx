@@ -32,6 +32,7 @@ const App: React.FC = () => {
   const [isStandalone, setIsStandalone] = useState(false);
   const [showInstallHub, setShowInstallHub] = useState(false);
   const transitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const navLockRef = useRef(false);
 
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('alexcipher_theme') as Theme;
@@ -46,6 +47,8 @@ const App: React.FC = () => {
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState<boolean>(() => {
     return localStorage.getItem('alexcipher_accepted') === 'true';
   });
+
+  const [initialHashRead, setInitialHashRead] = useState(false);
 
   const addToast = useCallback((text: string, type: 'success' | 'error' = 'success') => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -74,14 +77,54 @@ const App: React.FC = () => {
     return () => window.removeEventListener('pwa-update-available', handleUpdate);
   }, [addToast, language]);
 
+  const doNavigate = useCallback((page: Page) => {
+    if (navLockRef.current) return;
+    if (page === currentPage || isTransitioning) return;
+    navLockRef.current = true;
+
+    const dir = (pageDepth[page] ?? 0) >= (pageDepth[currentPage] ?? 0) ? 'forward' : 'back';
+    setPrevPage(currentPage);
+    setTransitionDir(dir);
+
+    setIsTransitioning(true);
+    setDisplayedPage(page);
+
+    if (transitionTimer.current) clearTimeout(transitionTimer.current);
+    transitionTimer.current = setTimeout(() => {
+      setCurrentPage(page);
+      setIsTransitioning(false);
+      navLockRef.current = false;
+    }, 300);
+
+    localStorage.setItem('alexcipher_page', page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage, isTransitioning]);
+
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const pageParam = params.get('page') as Page;
-    if (pageParam && ['dashboard', 'keys', 'faq'].includes(pageParam)) {
-      setCurrentPage(pageParam);
-      setDisplayedPage(pageParam);
+    const hash = (window.location.hash.replace('#', '') || 'landing') as Page;
+    const saved = localStorage.getItem('alexcipher_page') as Page;
+    const initialPage = hash !== 'landing' ? hash : (saved || 'landing');
+    const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms'];
+
+    if (validPages.includes(initialPage) && initialPage !== 'landing') {
+      setCurrentPage(initialPage);
+      setDisplayedPage(initialPage);
     }
+    setInitialHashRead(true);
   }, []);
+
+  useEffect(() => {
+    if (!initialHashRead) return;
+    const onHashChange = () => {
+      const hash = (window.location.hash.replace('#', '') || 'landing') as Page;
+      const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms'];
+      if (validPages.includes(hash)) {
+        doNavigate(hash);
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, [initialHashRead, doNavigate]);
 
   useEffect(() => {
     localStorage.setItem('alexcipher_lang', language);
@@ -152,22 +195,10 @@ const App: React.FC = () => {
   };
 
   const navigate = (page: Page) => {
-    if (page === currentPage || isTransitioning) return;
-
-    const dir = (pageDepth[page] ?? 0) >= (pageDepth[currentPage] ?? 0) ? 'forward' : 'back';
-    setPrevPage(currentPage);
-    setTransitionDir(dir);
-
-    setIsTransitioning(true);
-    setDisplayedPage(page);
-
-    if (transitionTimer.current) clearTimeout(transitionTimer.current);
-    transitionTimer.current = setTimeout(() => {
-      setCurrentPage(page);
-      setIsTransitioning(false);
-    }, 300);
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const hash = page === 'landing' ? '' : page;
+    const currentHash = window.location.hash.replace('#', '');
+    if (currentHash === hash || navLockRef.current) return;
+    window.location.hash = hash;
   };
 
   useEffect(() => {

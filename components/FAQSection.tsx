@@ -60,9 +60,9 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ language, onNavigate }) 
       <div className="grid lg:grid-cols-5 gap-12">
         {/* Tips Section */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="flex items-center gap-2 mb-8">
-            <Lightbulb className="w-6 h-6" style={{ color: '#eab308' }} />
-            <h3 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t.sections.tips}</h3>
+          <div className="feature-pill mb-8" style={{ backgroundColor: 'rgba(234, 179, 8, 0.1)', border: '1px solid rgba(234, 179, 8, 0.2)', color: '#eab308' }}>
+            <Lightbulb className="w-4 h-4" />
+            <span className="text-sm font-bold">{t.sections.tips}</span>
           </div>
 
           {t.tips.map((tip, i) => (
@@ -83,14 +83,14 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ language, onNavigate }) 
 
         {/* FAQ Section */}
         <div className="lg:col-span-3 space-y-6">
-          <div className="flex items-center gap-2 mb-8">
-            <HelpCircle className="w-6 h-6" style={{ color: 'var(--accent)' }} />
-            <h3 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{t.sections.faq}</h3>
+          <div className="feature-pill mb-8" style={{ backgroundColor: 'var(--accent-soft)', border: '1px solid var(--accent)', color: 'var(--accent)' }}>
+            <HelpCircle className="w-4 h-4" />
+            <span className="text-sm font-bold">{t.sections.faq}</span>
           </div>
 
           <div className="space-y-4">
             {t.items.map((item, i) => (
-              <div key={i} className="card-hover border rounded-2xl p-6" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+              <div key={i} className="card-hover card-accent border rounded-2xl p-6" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
                 <h3 className="text-lg font-bold mb-3 flex items-start gap-3" style={{ color: 'var(--text-primary)' }}>
                   <span className="font-mono mt-1 text-sm" style={{ color: 'var(--accent)' }}>Q.</span>
                   {item.q}

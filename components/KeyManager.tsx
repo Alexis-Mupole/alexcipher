@@ -84,11 +84,9 @@ export const KeyManager: React.FC<KeyManagerProps> = ({ language, value, onChang
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={labels.placeholderKey}
-                className="w-full border rounded-xl p-3 pr-10 text-sm transition-all focus:outline-none focus:ring-1 notranslate"
+                className="input-glow w-full border rounded-xl p-3 pr-10 text-sm notranslate"
                 style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
                 translate="no"
-                onFocus={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-                onBlur={(e) => e.currentTarget.style.borderColor = 'var(--border-color)'}
               />
               <button 
                 onClick={() => setShowPassword(!showPassword)}

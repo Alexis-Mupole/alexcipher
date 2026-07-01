@@ -6,7 +6,6 @@ import { translations } from '../translations';
 import { KeyManager } from './KeyManager';
 
 const MAX_CHAR_LIMIT = 100000;
-const APP_URL = "https://alexcipher.vercel.app/";
 
 interface DashboardProps {
   addToast: (msg: string, type?: 'success' | 'error') => void;
@@ -74,15 +73,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
   const handleShare = async () => {
     if (!result) return;
 
-    const shareMessage = `${t.shareText}\n\n${result}\n\n${language === 'fr' ? '🔓 Déchiffrez-le ici' : '🔓 Decrypt it here'} : ${APP_URL}`;
-
     if (navigator.share) {
       try {
-        await navigator.share({ 
-          title: 'AlexCipher Secure Message', 
-          text: shareMessage,
-          url: APP_URL
-        });
+        await navigator.share({ text: result });
       } catch (err) {
         copyToClipboard();
       }
@@ -112,7 +105,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
         {common.backHome}
       </button>
 
-      <div className="border rounded-[2.5rem] shadow-2xl overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+      <div className="glass-card rounded-[2.5rem] shadow-2xl overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)' }}>
         {/* Tabs */}
         <div className="flex p-2.5" style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-tertiary)' }}>
           <button 
@@ -152,10 +145,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                   maxLength={MAX_CHAR_LIMIT}
                   onChange={(e) => setSourceText(e.target.value)}
                   placeholder={activeTab === 'encrypt' ? t.placeholderSource : t.placeholderEncrypted}
-                  className="w-full h-56 border rounded-3xl p-6 transition-all resize-none leading-relaxed focus:outline-none focus:ring-2"
-                  style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)', color: 'var(--text-primary)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}
-                  onFocus={(e) => e.currentTarget.style.boxShadow = `0 0 0 2px var(--accent-soft)`}
-                  onBlur={(e) => e.currentTarget.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.05)'}
+                  className="input-glow w-full h-56 border rounded-3xl p-6 resize-none leading-relaxed"
+                  style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
                 />
               </div>
 
@@ -169,7 +160,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                       disabled={isProcessing}
                       value={method}
                       onChange={(e) => setMethod(e.target.value as CipherMethod)}
-                      className="w-full border rounded-2xl p-4.5 transition-all cursor-pointer appearance-none focus:outline-none focus:ring-2"
+                      className="input-glow w-full border rounded-2xl p-4.5 cursor-pointer appearance-none"
                       style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
                     >
                       <option value={CipherMethod.AES}>{CipherMethod.AES}</option>
@@ -258,8 +249,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ addToast, language, onNavi
                   {t.labelResult}
                 </label>
                 {result && !isProcessing && (
-                  <span className="text-[9px] font-bold tracking-widest animate-in fade-in" style={{ color: 'var(--accent)' }}>
-                    READY: {result.length.toLocaleString()} BYTES
+                  <span className="counter-badge animate-in fade-in" style={{ backgroundColor: 'var(--accent-soft)', color: 'var(--accent)' }}>
+                    {result.length.toLocaleString()} BYTES
                   </span>
                 )}
               </div>

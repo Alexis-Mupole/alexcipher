@@ -44,7 +44,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, language, onNavigate
 
       <div className="space-y-12">
         {content.sections.map((section, idx) => (
-          <section key={idx} className="card-hover border p-8 rounded-3xl relative overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
+          <section key={idx} className="card-hover card-accent border p-8 rounded-3xl relative overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderColor: 'var(--border-color)' }}>
             <div className="absolute top-0 left-0 w-1 h-full transition-opacity group-hover:opacity-100" style={{ backgroundColor: type === 'privacy' ? 'var(--accent)' : '#6366f1', opacity: 0 }} />
             <div className="flex items-start gap-4">
               <div className="icon-box w-10 h-10 mt-1" style={{ backgroundColor: type === 'privacy' ? 'var(--accent-soft)' : 'rgba(99, 102, 241, 0.1)', color: type === 'privacy' ? 'var(--accent)' : '#6366f1' }}>

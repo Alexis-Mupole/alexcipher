@@ -26,12 +26,12 @@ export const Hero: React.FC<HeroProps> = ({ onStart, language }) => {
     <div className="relative overflow-hidden pt-12 pb-20 lg:pt-32 lg:pb-40">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full -z-10 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full" style={{ backgroundColor: 'var(--accent)', opacity: 0.08, filter: 'blur(80px)' }}></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full" style={{ backgroundColor: 'var(--accent-dark)', opacity: 0.08, filter: 'blur(80px)' }}></div>
+        <div className="hero-glow-1"></div>
+        <div className="hero-glow-2"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-6 md:mb-8" style={{ backgroundColor: 'var(--accent-soft)', border: '1px solid var(--accent)', color: 'var(--accent)' }}>
+        <div className="feature-pill mb-6 md:mb-8" style={{ backgroundColor: 'var(--accent-soft)', border: '1px solid var(--accent)', color: 'var(--accent)' }}>
           <Zap className="w-3 h-3" />
           {t.badge}
         </div>
@@ -110,7 +110,7 @@ export const Hero: React.FC<HeroProps> = ({ onStart, language }) => {
                         {getStepIcon(step.icon)}
                       </div>
                       {i < t.howItWorks.steps.length - 1 && (
-                        <div className="w-0.5 flex-grow my-2" style={{ background: `linear-gradient(to bottom, var(--border-color), transparent)` }} />
+                        <div className="step-line" />
                       )}
                     </div>
                     <div className="pb-4">
@@ -130,7 +130,7 @@ export const Hero: React.FC<HeroProps> = ({ onStart, language }) => {
             <div className="p-4 md:p-6 flex justify-end shrink-0" style={{ borderTop: '1px solid var(--border-color)', backgroundColor: 'var(--bg-tertiary)' }}>
               <button 
                 onClick={() => setIsHowItWorksOpen(false)}
-                className="w-full sm:w-auto font-bold px-8 py-3 rounded-xl transition-all" style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border-color)' }}
+                className="btn-secondary w-full sm:w-auto"
               >
                 {t.howItWorks.close}
               </button>
