@@ -22,7 +22,15 @@ const pageDepth: Record<Page, number> = {
   developer: 2,
 };
 
-const getInitialPage = (): Page => 'landing';
+const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms', 'developer'];
+
+const getInitialPage = (): Page => {
+  const hash = window.location.hash.replace('#', '') as Page;
+  if (validPages.includes(hash)) return hash;
+  const saved = localStorage.getItem('alexcipher_page') as Page;
+  if (validPages.includes(saved)) return saved;
+  return 'landing';
+};
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>(getInitialPage);
@@ -105,7 +113,6 @@ const App: React.FC = () => {
   useEffect(() => {
     const onHashChange = () => {
       const hash = (window.location.hash.replace('#', '') || 'landing') as Page;
-      const validPages: Page[] = ['landing', 'dashboard', 'keys', 'faq', 'privacy', 'terms', 'developer'];
       if (validPages.includes(hash)) {
         doNavigate(hash);
       }
